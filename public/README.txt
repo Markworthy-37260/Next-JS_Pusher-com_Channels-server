@@ -1,7 +1,7 @@
 
 Hi there, and welcome to the public section of this repository, which is doubling as the webroot of this project** _and_ a small library of public resources.  So: if it's not in here, don't bug me about it, OK?
 
-[[ **which is to build a secure chat-server using Pusher.com's 'Channels' product. ]]
+[[ **to build a secure chat-server using Pusher.com's 'Channels' product. ]]
 
 Presently (=Feb '24), I am serving such resources to myself via githack (see <https://raw.githack.com/>).  Hence, I pasted <https://raw.githubusercontent.com/Markworthy-37260/Next-JS_Pusher-com_Channels-server/main/public/JSBI_etc.js> in there to obtain <https://raw.githack.com/Markworthy-37260/Next-JS_Pusher-com_Channels-server/main/public/JSBI_etc.js>, thereby to write the HTML...
 
