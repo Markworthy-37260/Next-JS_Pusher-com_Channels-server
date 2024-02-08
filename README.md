@@ -1,3 +1,7 @@
+# re Pusher.com (ie this project)
+
+This file is from template; you probably want <./public/README.txt>.  Try <https://github.com/Markworthy-37260/Next-JS_Pusher-com_Channels-server/tree/main/public>.  See you there, -Marcus
+
 # Next.js
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
