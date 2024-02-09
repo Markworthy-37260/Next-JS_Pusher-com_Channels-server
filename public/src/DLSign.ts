@@ -1,5 +1,6 @@
 
-declare class JSBI extends Array { // TODO= MOVE to separate file
+// PREAMBULATORY CONTEXT - Copied here to compile in the TS playground
+declare class JSBI extends Array {
     private sign;
     private constructor();
     static BigInt(arg: number | string | boolean | object): JSBI;
@@ -120,13 +121,13 @@ declare class JSBI extends Array { // TODO= MOVE to separate file
 
  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 /****\
+/// <reference path="../types.d.ts" />
+const knull= null as null_t_;
 export const _2upby31less1= (1<<31)*2.0-1>>>0;
  \**/
 
-// TODO?= poll for globje['JSBI']
-
-import globje from './required'; // TODO= FIX with notional type
-//const JSBI_= globje['JSBI'] as JSBI;
+import globje from './required.js'; // TODO?= FIX with notional type or s/t
+//const JSBI_= globje['JSBI'] as JSBI; // TODO?= poll for globje['JSBI']
 
 //setTimeout(()=>{ console.log("DS"+JSBI.unaryMinus(JSBI.BigInt('4242')).toString(8)); }, 4999);
 console.log("DS"+JSBI.unaryMinus(JSBI.BigInt('4242')).toString(8));
@@ -151,39 +152,39 @@ set_timeout(0)(()=>{ //console.log("10222 === " + (JSBI.BigInt(4242)).toString(8
 const BigNat= (s :string)=>JSBI.BigInt(s);
 
 //const _146= {} as it_t_; type vrfy_t__= typeof _146.vrfy;
-;type vrfy_t_= (y: string, e: string, s: string) => string;
+;type signer_vrfy_t_= (y: string, e: string, s: string) => string;
 
 //async function _147(it :string) { return it; } ;type hasher_afn_t__= typeof _147;
 ;type hasher_afn_t_= (_ :string) => Promise<string>;
 
-;interface draysigner_t_ { _ :string; 'JSBI': typeof JSBI;
+;interface draysigner_t_ { _ :string; globje :object; 'JSBI': typeof JSBI;
   key_r: (str :string) => string;
   key_u: (r :string) => string;
   sign_k: (str :string) => string;
   sign_gk: (k :string) => string;
   sign: (r :string) => (k :string, e :string) => string;
   vrfy: (y :string, e :string, s :string) => string;
-  verify: (verifier :vrfy_t_, hasher :hasher_afn_t_
+  verify: (verifier :signer_vrfy_t_, hasher :hasher_afn_t_
       ) => (pubkey: string
       ) => (message: string, evidence: string, signature: string
       ) => Promise<boolean>;
 };
 
-;interface draysigner_t__ { _ :string; 'JSBI': typeof JSBI;
+;interface draysigner_t__ { _ :string; globje :object; 'JSBI': typeof JSBI;
   key_r?: (str :string) => string;
   key_u?: (r :string) => string;
   sign_k?: (str :string) => string;
   sign_gk?: (k :string) => string;
   sign?: (r :string) => (k :string, e :string) => string;
   vrfy?: (y :string, e :string, s :string) => string;
-  verify?: (verifier :vrfy_t_, hasher :hasher_afn_t_
+  verify?: (verifier :signer_vrfy_t_, hasher :hasher_afn_t_
       ) => (pubkey: string
       ) => (message: string, evidence: string, signature: string
       ) => Promise<boolean>;
 };
 
  // Asynchronous verification
-function verify(verifier :vrfy_t_, hasher :hasher_afn_t_) {
+function verify(verifier :signer_vrfy_t_, hasher :hasher_afn_t_) {
   return (pubkey :string
     ) => async (message :string, evidence :string, signature :string
     ) => (evidence
@@ -192,7 +193,7 @@ function verify(verifier :vrfy_t_, hasher :hasher_afn_t_) {
 
  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 
-const cgwvaPfG :draysigner_t__[]= [ { _: 'cgwvaPfG', 'JSBI': globje['JSBI'], } ]; // as draysigner_t_
+const cgwvaPfG :draysigner_t__[]= [ { _: 'cgwvaPfG', 'globje': globje, 'JSBI': globje['JSBI'], } ];
 populate(cgwvaPfG);
 export default cgwvaPfG[0] as draysigner_t_;
 //var globj= undefined;
@@ -427,3 +428,4 @@ console.log(gen.next().value); // 20
  \**/
 
 const _: string= NaN; _; // Provoke the playground into reporting unused variables (!)
+
