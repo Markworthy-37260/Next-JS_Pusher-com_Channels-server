@@ -117,18 +117,29 @@ declare class JSBI extends Array {
     static __clz30: (x: number) => number;
     static __imul: (x: number, y: number) => number;
     static __isOneDigitInt(x: number): boolean;
-}
+}/**/
 
  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
-/****\
-/// <reference path="../types.d.ts" />
+/****\ --- just ignore this crap:
+/// /// <reference path="../types.d.ts" />
 const knull= null as null_t_;
-export const _2upby31less1= (1<<31)*2.0-1>>>0;
+///export const _2upby31less1= (1<<31)*2.0-1>>>0;
+///import globje from './required.js'; // TODO?= FIX with notional type or s/t
+///export default JSBI; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
+//const JSBI_= globje['JSBI'] as JSBI; // TODO?= poll for globje['JSBI']
  \**/
 
-import globje from './required.js'; // TODO?= FIX with notional type or s/t
-//const JSBI_= globje['JSBI'] as JSBI; // TODO?= poll for globje['JSBI']
+const //set_timeout(0)(()=>{ //var globj= undefined;
+ globje= ( ()=>{} ).constructor('return this;')();
+ const jsbi__= typeof globje['JSBI'];
+ const jsbi_= jsbi__==='undefined'? "": "JSBI " + jsbi__;
+ globje['JSBI']= JSBI; // console.log("Added " + typeof (global_['JSBI']= JSBI));
+ const jsbi= "JSBI " + typeof globje['JSBI'];
+ console.log((jsbi===jsbi_? "Already have ": "Loaded " + (!jsbi_? "": jsbi + " over ")) + (!jsbi_? jsbi: jsbi_));
+//});
 
+//const set_timeout= (ms)=>(fn, ...args)=>setTimeout(fn, ms, ...args);
+//setTimeout(()=>{ console.log("0o" + JSBI.BigInt('4242').toString(8)); }, 9999); // waits ten secs and prints 0o10222
 //setTimeout(()=>{ console.log("DS"+JSBI.unaryMinus(JSBI.BigInt('4242')).toString(8)); }, 4999);
 console.log("DS"+JSBI.unaryMinus(JSBI.BigInt('4242')).toString(8));
 const sbz= ('-').charCodeAt(0) - JSBI.unaryMinus(JSBI.BigInt(4242)).toString().charCodeAt(0);
@@ -191,25 +202,12 @@ function verify(verifier :signer_vrfy_t_, hasher :hasher_afn_t_) {
       === await hasher(""+verifier(pubkey, evidence, signature)+message));
 }
 
- /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
-
 const cgwvaPfG :draysigner_t__[]= [ { _: 'cgwvaPfG', 'globje': globje, 'JSBI': globje['JSBI'], } ];
-populate(cgwvaPfG);
-export default cgwvaPfG[0] as draysigner_t_;
-//var globj= undefined;
 
- /**\
-set_timeout(0)(()=>{
-  globj= ( ()=>{} ).constructor('return this;')();
-  const jsbi__= typeof globj['JSBI'];
-  const jsbi_= jsbi__==='undefined'? "": "JSBI " + jsbi__;
-  globj['JSBI']= JSBI; // console.log("Added " + typeof (global_['JSBI']= JSBI));
-  const jsbi= "JSBI " + typeof globj['JSBI'];
-  console.log((jsbi===jsbi_? "Already have ": "Loaded " + (!jsbi_? "": jsbi + " over ")) + (!jsbi_? jsbi: jsbi_));
-  globj[cgwvaPfG[0]._]= cgwvaPfG;
-  populate(cgwvaPfG[0]); // Next.  Duh.
-});
- \**/
+populate(cgwvaPfG); // see next
+///export default cgwvaPfG[0] as draysigner_t_;
+
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 
 function populate(it: draysigner_t__[]) {{
 
@@ -377,55 +375,6 @@ set_timeout(99)(()=>{{
 }});
 
  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
- /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
-/****\
-const makeScriptURL = (content) => {
-    const blob = new Blob([content], { type: "text/javascript" });
-    return URL.createObjectURL(blob);
-}
-
-const moduleScriptURL = makeScriptURL(`
-    export const foo = "bar";
-`);
-
-const defaultScriptURL = makeScriptURL(`
-    self.bar = "baz";
-`);
-
-const workerURL = makeScriptURL(`
-    importScripts("${defaultScriptURL}");
-    import("${moduleScriptURL}")
-      .then(({foo}) => postMessage({foo, bar}))
-      .catch((err) => postMessage(err.message));
-`);
-
-const worker = new Worker(workerURL);
-worker.onmessage = ({data}) => console.log(data);
-worker.onerror = (evt) => console.error(evt.message);
-
- ****
-
-function* anotherGenerator(i) {
-  yield i + 1;
-  yield i + 2;
-  yield i + 3;
-}
-
-function* generator(i) {
-  yield i;
-  yield* anotherGenerator(i);
-  yield i + 10;
-}
-
-const gen = generator(10);
-
-console.log(gen.next().value); // 10
-console.log(gen.next().value); // 11
-console.log(gen.next().value); // 12
-console.log(gen.next().value); // 13
-console.log(gen.next().value); // 20
-
- \**/
 
 const _: string= NaN; _; // Provoke the playground into reporting unused variables (!)
 
