@@ -1,4 +1,5 @@
 
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -9,12 +10,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
-/****\
-export const _2upby31less1= (1<<31)*2.0-1>>>0;
+/****\ --- just ignore this crap:
+/// /// <reference path="../types.d.ts" />
+const knull= null as null_t_;
+///export const _2upby31less1= (1<<31)*2.0-1>>>0;
+///import globje from './required.js'; // TODO?= FIX with notional type or s/t
+///export default JSBI; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
+//const JSBI_= globje['JSBI'] as JSBI; // TODO?= poll for globje['JSBI']
  \**/
-// TODO?= poll for globje['JSBI']
-import globje from './required';
-//const JSBI_= globje['JSBI'] as JSBI;
+const //set_timeout(0)(()=>{ //var globj= undefined;
+globje = (() => { }).constructor('return this;')();
+/**\
+const jsbi__= typeof globje['JSBI'];
+const jsbi_= jsbi__==='undefined'? "": "JSBI " + jsbi__;
+globje['JSBI']= JSBI; // console.log("Added " + typeof (global_['JSBI']= JSBI));
+const jsbi= "JSBI " + typeof globje['JSBI'];
+console.log((jsbi===jsbi_? "Already have ": "Loaded " + (!jsbi_? "": jsbi + " over ")) + (!jsbi_? jsbi: jsbi_));
+//});
+
+\**/ // NB: sincere apologies for some rather iffy demodularization at this early stage of the project
+
+//
+//const set_timeout= (ms)=>(fn, ...args)=>setTimeout(fn, ms, ...args);
+//setTimeout(()=>{ console.log("0o" + JSBI.BigInt('4242').toString(8)); }, 9999); // waits ten secs and prints 0o10222
 //setTimeout(()=>{ console.log("DS"+JSBI.unaryMinus(JSBI.BigInt('4242')).toString(8)); }, 4999);
 console.log("DS" + JSBI.unaryMinus(JSBI.BigInt('4242')).toString(8));
 const sbz = ('-').charCodeAt(0) - JSBI.unaryMinus(JSBI.BigInt(4242)).toString().charCodeAt(0);
@@ -47,23 +65,11 @@ function verify(verifier, hasher) {
             === (yield hasher("" + verifier(pubkey, evidence, signature) + message)));
     });
 }
+const cgwvaPfG = [{ _: 'cgwvaPfG', 'globje': globje, 'JSBI': globje['JSBI'], }];
+populate(cgwvaPfG); // see next
+globje['DLSign_cgwvaPfG'] = cgwvaPfG[0]; // a temporary name, obviously
+///export default cgwvaPfG[0] as draysigner_t_;
 /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
-const cgwvaPfG = [{ _: 'cgwvaPfG', 'JSBI': globje['JSBI'], }]; // as draysigner_t_
-populate(cgwvaPfG);
-export default cgwvaPfG[0];
-//var globj= undefined;
-/**\
-set_timeout(0)(()=>{
- globj= ( ()=>{} ).constructor('return this;')();
- const jsbi__= typeof globj['JSBI'];
- const jsbi_= jsbi__==='undefined'? "": "JSBI " + jsbi__;
- globj['JSBI']= JSBI; // console.log("Added " + typeof (global_['JSBI']= JSBI));
- const jsbi= "JSBI " + typeof globj['JSBI'];
- console.log((jsbi===jsbi_? "Already have ": "Loaded " + (!jsbi_? "": jsbi + " over ")) + (!jsbi_? jsbi: jsbi_));
- globj[cgwvaPfG[0]._]= cgwvaPfG;
- populate(cgwvaPfG[0]); // Next.  Duh.
-});
-\**/
 function populate(it) {
     {
         const p321a = '100000000000000000000000000000000000004ac158f960042437cb88fd5777e8d51b9865bc460fb';
@@ -223,3 +229,6 @@ set_timeout(99)(() => {
     }
 });
 /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+const _ = NaN;
+_; // Provoke the playground into reporting unused variables (!)
+
