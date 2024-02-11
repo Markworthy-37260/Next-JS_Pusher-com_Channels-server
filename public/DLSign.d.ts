@@ -117,18 +117,26 @@ declare class JSBI extends Array {
     static __imul: (x: number, y: number) => number;
     static __isOneDigitInt(x: number): boolean;
 }
-type vrfy_t_ = (y: string, e: string, s: string) => string;
+
+type signer_vrfy_t_ = (y: string, e: string, s: string) => string;
 type hasher_afn_t_ = (_: string) => Promise<string>;
+
 interface draysigner_t_ {
     _: string;
+    globje: object;
     'JSBI': typeof JSBI;
     key_r: (str: string) => string;
     key_u: (r: string) => string;
     sign_k: (str: string) => string;
     sign_gk: (k: string) => string;
-    sign: (r: string) => (k: string, e: string) => string;
+    sign: (r: string
+     ) => (k: string, e: string) => string;
     vrfy: (y: string, e: string, s: string) => string;
-    verify: (verifier: vrfy_t_, hasher: hasher_afn_t_) => (pubkey: string) => (message: string, evidence: string, signature: string) => Promise<boolean>;
-}
-declare const _default: draysigner_t_;
-export default _default;
+    verify: (verifier: signer_vrfy_t_, hasher: hasher_afn_t_
+       ) => (pubkey: string
+       ) => (message: string, evidence: string, signature: string) => Promise<boolean>;
+}/**/
+
+///declare const _default: draysigner_t_;
+///export default _default;
+
