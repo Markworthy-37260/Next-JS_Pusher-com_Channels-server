@@ -1,7 +1,13 @@
 
-// True source: <https://raw.githubusercontent.com/GoogleChromeLabs/jsbi/main/lib/jsbi.ts>
-// Transpiled to ES2015 in TS playground (<https://www.typescriptlang.org/play>)
-// Minimally extended (see end)
+ // Orig source: <https://raw.githubusercontent.com/GoogleChromeLabs/jsbi/main/lib/jsbi.ts>
+ // Transpiled to ES2015 in TS playground (<https://www.typescriptlang.org/play>)
+ // Minimally extended (see end), and made module-agnostic
+
+"use strict";
+// Orig source: <https://raw.githubusercontent.com/GoogleChromeLabs/jsbi/main/lib/jsbi.ts>
+// Dated 15th Aug '23 and taken 10th Feb '24, tho version # (=4.3.0) dates from April '22(!)
+// Final moduling line ("export default JSBI;") commented out to enable flexible inclusion
+// Code otherwise unmodified except for changes to comments (including this one, obviously)
 
 // Copyright 2018 Google Inc.
 //
@@ -1595,9 +1601,9 @@ class JSBI extends Array {
         // D1.
         const shift = JSBI.__clz15(divisor.__halfDigit(n - 1));
         if (shift > 0) {
-            divisor = JSBI.__specialLeftShift(divisor, shift, 0 /* add no digits*/);
+            divisor = JSBI.__specialLeftShift(divisor, shift, 0); // add no digits
         }
-        const u = JSBI.__specialLeftShift(dividend, shift, 1 /* add one digit */);
+        const u = JSBI.__specialLeftShift(dividend, shift, 1); // add one digit
         // D2.
         const vn1 = divisor.__halfDigit(n - 1);
         let halfDigitBuffer = 0;
@@ -1998,7 +2004,7 @@ class JSBI extends Array {
     static __isOneDigitInt(x) {
         return (x & 0x3FFFFFFF) === x;
     }
-}
+} /**/
 JSBI.__kMaxLength = 1 << 25;
 JSBI.__kMaxLengthBits = JSBI.__kMaxLength << 5;
 // Lookup table for the maximum number of bits required per character of a
@@ -2034,21 +2040,17 @@ JSBI.__clz30 = Math.clz32 ? function (x) {
 JSBI.__imul = Math.imul || function (a, b) {
     return (a * b) | 0;
 };
-
-//
-
-var globj= undefined;
-
-const set_timeout= (ms)=>(fn, ...args)=>setTimeout(fn, ms, ...args);
-set_timeout(0)(()=>{
-  globj= ( ()=>{} ).constructor('return this;')();
-  const jsbi__= typeof globj['JSBI'];
-  const jsbi_= jsbi__==='undefined'? "": "JSBI " + jsbi__;
-  globj['JSBI']= JSBI; // console.log("Added " + typeof (global_['JSBI']= JSBI));
-  const jsbi= "JSBI " + typeof globj['JSBI'];
-  console.log((jsbi===jsbi_? "Already have ": "Loaded " + (!jsbi_? "": jsbi + " over ")) + (!jsbi_? jsbi: jsbi_));
-});
-
-export default JSBI; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
-
+/// ///export default JSBI;
 //setTimeout(()=>{ console.log("0o" + JSBI.BigInt('4242').toString(8)); }, 9999); // waits ten secs and prints 0o10222
+
+const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
+if (globje['NJSBI']) { }
+else {
+    const jsbi__ = typeof globje['JSBI'];
+    const jsbi_ = jsbi__ === 'undefined' ? "" : "JSBI " + jsbi__;
+    globje['JSBI'] = JSBI;
+    const jsbi = "JSBI " + typeof globje['JSBI'];
+    console.log((jsbi === jsbi_ ? "Already have " : "Loaded " + (!jsbi_ ? "" : jsbi + " over ")) + (!jsbi_ ? jsbi : jsbi_));
+}
+///export default globje; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
+
