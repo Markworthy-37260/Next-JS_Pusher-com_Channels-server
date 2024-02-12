@@ -131,13 +131,18 @@ const knull= null as null_t_;
 
 const //set_timeout(0)(()=>{ //var globj= undefined;
  globje= ( ()=>{} ).constructor('return this;')();
+ /**\
  const jsbi__= typeof globje['JSBI'];
  const jsbi_= jsbi__==='undefined'? "": "JSBI " + jsbi__;
  globje['JSBI']= JSBI; // console.log("Added " + typeof (global_['JSBI']= JSBI));
  const jsbi= "JSBI " + typeof globje['JSBI'];
  console.log((jsbi===jsbi_? "Already have ": "Loaded " + (!jsbi_? "": jsbi + " over ")) + (!jsbi_? jsbi: jsbi_));
 //});
+  **
+  **
+ \**/ // NB: sincere apologies for some rather iffy demodularization at this early stage of the project
 
+//
 //const set_timeout= (ms)=>(fn, ...args)=>setTimeout(fn, ms, ...args);
 //setTimeout(()=>{ console.log("0o" + JSBI.BigInt('4242').toString(8)); }, 9999); // waits ten secs and prints 0o10222
 //setTimeout(()=>{ console.log("DS"+JSBI.unaryMinus(JSBI.BigInt('4242')).toString(8)); }, 4999);
@@ -205,6 +210,7 @@ function verify(verifier :signer_vrfy_t_, hasher :hasher_afn_t_) {
 const cgwvaPfG :draysigner_t__[]= [ { _: 'cgwvaPfG', 'globje': globje, 'JSBI': globje['JSBI'], } ];
 
 populate(cgwvaPfG); // see next
+globje['DLSign_cgwvaPfG']= cgwvaPfG[0]; // a temporary name, obviously
 ///export default cgwvaPfG[0] as draysigner_t_;
 
  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
