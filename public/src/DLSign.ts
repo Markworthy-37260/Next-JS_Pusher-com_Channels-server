@@ -291,19 +291,22 @@ const powmod_= (m :bignat)=>{
   return powmod__(mm_);
 }
 
-const pump= powmod_(p1);
-const generator= (p :bignat, q :bignat)=>{
+const pump1= powmod_(p1);
+const generator= (p :bignat, pm_ :typeof pump1, q :bignat
+                )=>(limit: number
+                )=>{
   const k= div_(q)(dec(p));
-  const pm= pump(k);
+  const pm= pm_(k);
 
   const f= (r :string)=>
            pm(BigNat(r));
   let rv= f('2');
   let i= 1;
-  while (one(rv) && (i+= 2)<=7) rv= f(i.toString());
-  if (i<=7) {} else throw " :-( @"+72; // This is so improbable that failure surely implies a mistake
+  while (one(rv) && (i+= 2)<=limit) rv= f(i.toString());
+  if (i<=limit) {} else throw " :-( @"+72; // This ought to be highly improbable, so failure surely implies a mistake
   return rv;
 }
+const gen1= generator(p1, pump1, q1)
 
 //const D= (it :string)=>BigNat("00"+it.trim());
 const B= (it: string)=>BigNat("0b"+it.trim());
@@ -327,10 +330,10 @@ const prepkey= (post :id_t_)=>(radix= 10)=>{
 const pubkey= (radix= 8)=>(p :bignat, q :bignat, g :bignat)=>(r :string)=>
   powmod_(p)(sub_(B(r))(q))(g).toString(radix);
 
-const g1= generator(p1, q1);
+const g1= gen1(7); // let's be lucky?!?
 console.log(String(g1) + " == 0x" + g1.toString(16));
 if (!one(g1)) {} else throw " :-( @"+78; // These two tests are a sound (if incomplete) check of the scheme params
-const g2q= powmod_(p1)(q1)(g1);
+const g2q= pump1(q1)(g1);
 console.log(String(g2q) + " == 0x" + g2q.toString(16));
 if (one(g2q)) {} else throw " :-( @"+81; // These two tests are a sound (if incomplete) check of the scheme params
 
@@ -344,7 +347,7 @@ it[0].key_u= pubkey()(p1, q1, g1);
 
 it[0].sign_k= it[0].key_r; // k= H() % q_c + l;
 
-const sign_gk= (radix= 32)=>(k :string)=>(pump(B(k))(g1)).toString(radix); // gk= pm(g, k, p).toString(32);
+const sign_gk= (radix= 32)=>(k :string)=>(pump1(B(k))(g1)).toString(radix); // gk= pm(g, k, p).toString(32);
 it[0].sign_gk= sign_gk(); // e= H(gk...)
 
 const sign= (radix= 16)=>(q :bignat)=>(r :string)=>(k :string, e :string)=>
@@ -353,7 +356,7 @@ it[0].sign= sign()(q1);
 
 const yegs= (radix= 32)=>(p :bignat, g :bignat)=>{
   const mm_= mulmod_(p); // const pm_= powmod_(p);
-  return (y :string, e :string, s :string)=>mm_(pump(X(s))(g))(pump(X(e))(O(y))).toString(radix); // pm(y, e, p) * pm(g, s, p) % p;
+  return (y :string, e :string, s :string)=>mm_(pump1(X(s))(g))(pump1(X(e))(O(y))).toString(radix); // pm(y, e, p) * pm(g, s, p) % p;
 }
 it[0].vrfy= yegs()(p1, g1);
 
