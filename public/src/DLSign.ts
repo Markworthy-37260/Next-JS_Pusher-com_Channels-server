@@ -216,13 +216,14 @@ globje['DLSign_cgwvaPfG']= cgwvaPfG[0]; // a temporary name, obviously
  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 
 function populate(it: draysigner_t__[]) {{
-
+/**/
 const p321a= '100000000000000000000000000000000000004ac158f960042437cb88fd5777e8d51b9865bc460fb';
 const p2048a= 'fffffffffffffffffffffffffffffffffffffffffb7f960042437cb88fd5777e8d51b9865bae8c8c803d489505f652dd7c91114973ee1e5808d33d3c724fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdaa729d8a9ef16a21e0280c694448de2b479821307b326ae680c8fea9de59741bb952f21933c38461e1299245d93632f1497f59491e774369a4809fa6141421e87f01fbd5470afbebaa721466bf5247400f27c22b72394ba5fcb91cad3919a171d94646818eb2638d570f9de2cdec4eda0040403fbdcf7c797ef8a1115f6bd03f38153ec8350e49b126b86570fdd46720984a883346734b365b81a5dce7b245d';
 const p1554a= '3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6a9ca762a7bc5a88780a031a5112378ad1e6084c1c2c1dcfe01ee7566f618de204ebac1b49b0fe935fdc5e8a0a75560022b282c268f7ca1c90ccd59a8337fa35c6e740738b8c0ce15d96b834aafc4f1910715d41c7d027cc1f096d8c7e9cc19e888b';
-
-//const p321b= '2327';
-//const p2048b= '5A7D651'
+/*/
+//const p321a= '2327';
+//const p2048a= '5A7D651';
+//const p1554a= '293'; /**/
 
 const tox= (big :bignat)=>big.toString(16);
 const frox= (hex :string)=>JSBI.BigInt("0x" + hex);
@@ -367,7 +368,7 @@ it[0].verify= verify;
 }/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 }/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 
-set_timeout(99)(()=>{{
+set_timeout(99)(async ()=>{{
 
   const it= cgwvaPfG[0] as draysigner_t_;
 
@@ -381,6 +382,7 @@ set_timeout(99)(()=>{{
   const e= h3_;
   const s= it.sign(x)(k, e); console.log("s= " + s);
   const v= it.vrfy(y, e, s); console.log("v= " + v);
+  const b= await it.verify(it.vrfy, async (_ :string)=>(h3_))(y)("", e, s); console.log("b= " + b);
 }});
 
  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
