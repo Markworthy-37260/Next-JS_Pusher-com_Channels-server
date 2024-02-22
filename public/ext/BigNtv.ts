@@ -2,8 +2,7 @@
 const BigIntCons :BigIntConstructor= BigInt; // TODO= LOSE (ideally)
 
 ;class JSBI_ntv /* extends BigInt /**/ { // TODO?= MAYBE= extend Number?
-  private ///! PRIVATE_CONS
-  constructor(private it :bigint) { //super(NaN);
+  /* private /**/ constructor(private it :bigint) { //super(NaN);
     Object.setPrototypeOf(this, JSBI_ntv.prototype);
   }
   static __this() { return this; }
