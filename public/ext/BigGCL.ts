@@ -19,7 +19,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-class JSBI_gcl extends Array {
+;class JSBI_gcl extends Array {
   private ///! PRIVATE_CONS
   constructor(length: number, private sign: boolean) {
     super(length);
