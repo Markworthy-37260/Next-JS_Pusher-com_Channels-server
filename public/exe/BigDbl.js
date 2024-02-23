@@ -63,7 +63,8 @@ class JSBI_dbl extends Number {
 }
 
 /// ///export default JSBI_dbl;
-//setTimeout(()=>{ console.log("0o" + JSBI_dbl.BigInt('4242').toString(8)); }, 4999); // waits five secs, then prints '0o10222'
+console.log('///export default JSBI_dbl;');
+setTimeout(()=>{ console.log("0o" + JSBI_dbl.BigInt('4242').toString(8)); }, 4999); // waits five secs, then prints '0o10222'
 
 const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
 if (globje['NJSBI_floatOnly']) { }
