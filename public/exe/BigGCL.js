@@ -2049,13 +2049,15 @@ JSBI_gcl.__imul = Math.imul || function (a, b) {
 /// ///export default JSBI_gcl;
 //setTimeout(()=>{ console.log("0o" + JSBI_gcl.BigInt('4242').toString(8)); }, 4999); // waits five secs, then prints '0o10222'
 
-const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
-if (globje['NJSBI_GCLabs']) { }
-else {
+(() => {
+  const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
+  if (globje['NJSBI_GCLabs']) { }
+  else {
     const jsbi__ = typeof globje['JSBI_GCLabs'];
     const jsbi_ = jsbi__ === 'undefined' ? "" : "JSBIg " + jsbi__;
     globje['JSBI_GCLabs'] = JSBI_gcl;
     const jsbi = "JSBIg " + typeof globje['JSBI_GCLabs'];
     console.log((jsbi === jsbi_ ? "Already have " : "Loaded " + (!jsbi_ ? "" : jsbi + " over ")) + (!jsbi_ ? jsbi : jsbi_));
-}
+  }
+})();
 ///export default globje; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
