@@ -57,13 +57,16 @@ JSBI_ntv.__BigInt = (new JSBI_ntv(0n)).__$();
 /// ///export default JSBI_ntv;
 //setTimeout(()=>{ console.log("0o" + JSBI_ntv.BigInt('4242').toString(8)); }, 4999); // waits five secs, then prints '0o10222'
 
-const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
-if (globje['NJSBI_native']) { }
-else {
+(() => {
+  const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
+  if (globje['NJSBI_native']) { }
+  else {
     const jsbi__ = typeof globje['JSBI_native'];
     const jsbi_ = jsbi__ === 'undefined' ? "" : "JSBIn " + jsbi__;
     globje['JSBI_native'] = JSBI_ntv;
     const jsbi = "JSBIn " + typeof globje['JSBI_native'];
     console.log((jsbi === jsbi_ ? "Already have " : "Loaded " + (!jsbi_ ? "" : jsbi + " over ")) + (!jsbi_ ? jsbi : jsbi_));
-}
+ }
+})();
+
 ///export default globje; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
