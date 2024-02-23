@@ -63,16 +63,18 @@ class JSBI_dbl extends Number {
 }
 
 /// ///export default JSBI_dbl;
-console.log('///export default JSBI_dbl;');
-setTimeout(()=>{ console.log("0o" + JSBI_dbl.BigInt('4242').toString(8)); }, 4999); // waits five secs, then prints '0o10222'
+//setTimeout(()=>{ console.log("0o" + JSBI_dbl.BigInt('4242').toString(8)); }, 4999); // waits five secs, then prints '0o10222'
 
-const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
-if (globje['NJSBI_floatOnly']) { }
-else {
+(() => {
+  const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
+  if (globje['NJSBI_floatOnly']) { }
+  else {
     const jsbi__ = typeof globje['JSBI_floatOnly'];
     const jsbi_ = jsbi__ === 'undefined' ? "" : "JSBId " + jsbi__;
     globje['JSBI_floatOnly'] = JSBI_dbl;
     const jsbi = "JSBId " + typeof globje['JSBI_floatOnly'];
     console.log((jsbi === jsbi_ ? "Already have " : "Loaded " + (!jsbi_ ? "" : jsbi + " over ")) + (!jsbi_ ? jsbi : jsbi_));
-}
+  }
+})();
+
 ///export default globje; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
