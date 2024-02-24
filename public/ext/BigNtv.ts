@@ -33,8 +33,8 @@ const BigIntCons :BigIntConstructor= BigInt; // TODO= LOSE (ideally)
   toString(radix? :number) :string { return this.it.toString(radix || 10); } // TODO= (ditto)
   //valueOf() :bigint { return this.it; } // TODO= MORE
   static toNumber(it :JSBI_ntv) :number { return parseInt(it.it.toString()); } // TODO= better
-  static equal(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it !== y.it? 0n: 1n); }
-  static greaterThan(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it <= y.it? 0n: 1n); }
+  static equal(x :JSBI_ntv, y :JSBI_ntv) :boolean { return !(x.it !== y.it); }
+  static greaterThan(x :JSBI_ntv, y :JSBI_ntv) :boolean { return !(x.it <= y.it); }
   static add(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it + y.it); }
   static subtract(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it - y.it); }
   static multiply(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it * y.it); }
@@ -45,5 +45,5 @@ const BigIntCons :BigIntConstructor= BigInt; // TODO= LOSE (ideally)
   static leftShift(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it << y.it); }
   static signedRightShift(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it >> y.it); }
 // TODO?= isZero= (it: bigint_ish)=>JSBI_ish.equal(it, o__);
-}
+}/**/
 
