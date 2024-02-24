@@ -40,8 +40,8 @@ class JSBI_ntv /* extends BigInt /**/ {
     toString(radix) { return this.it.toString(radix || 10); } // TODO= (ditto)
     //valueOf() :bigint { return this.it; } // TODO= MORE
     static toNumber(it) { return parseInt(it.it.toString()); } // TODO= better
-    static equal(x, y) { return new JSBI_ntv(x.it !== y.it ? 0n : 1n); }
-    static greaterThan(x, y) { return new JSBI_ntv(x.it <= y.it ? 0n : 1n); }
+    static equal(x, y) { return !(x.it !== y.it); }
+    static greaterThan(x, y) { return !(x.it <= y.it); }
     static add(x, y) { return new JSBI_ntv(x.it + y.it); }
     static subtract(x, y) { return new JSBI_ntv(x.it - y.it); }
     static multiply(x, y) { return new JSBI_ntv(x.it * y.it); }
