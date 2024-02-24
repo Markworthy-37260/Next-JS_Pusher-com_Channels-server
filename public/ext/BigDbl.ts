@@ -39,17 +39,17 @@
   toString(radix? :number) :string { return this.valueOf().toString(radix || 10); } // TODO= (ditto)
   // valueOf() :number { throw ''; } // TODO= MORE
   static toNumber(it :JSBI_dbl) :number { return it.valueOf(); } // TODO= USE= super meth
-  static equal(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() !== y.valueOf()? 0: 1); }
-  static greaterThan(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() <= y.valueOf()? 0: 1); }
+  static equal(x :JSBI_dbl, y :JSBI_dbl) :boolean { return !(x.valueOf() !== y.valueOf()); }
+  static greaterThan(x :JSBI_dbl, y :JSBI_dbl) :boolean { return !(x.valueOf() <= y.valueOf()); }
   static add(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() + y.valueOf()); }
   static subtract(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() - y.valueOf()); }
   static multiply(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() * y.valueOf()); }
-  static divide(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() / y.valueOf()); }
+  static divide(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() / y.valueOf() >>> 0); }
   static remainder(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() % y.valueOf()); }
   static bitwiseAnd(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() & y.valueOf()); }
   static bitwiseOr(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() | y.valueOf()); }
   static leftShift(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() << y.valueOf()); }
   static signedRightShift(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() >>> y.valueOf()); }
 // TODO?= isZero= (it: bigint_ish)=>JSBI_ish.equal(it, o__);
-}
+}/**/
 
