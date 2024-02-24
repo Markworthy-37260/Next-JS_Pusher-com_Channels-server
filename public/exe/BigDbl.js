@@ -49,12 +49,12 @@ class JSBI_dbl extends Number {
     toString(radix) { return this.valueOf().toString(radix || 10); } // TODO= (ditto)
     // valueOf() :number { throw ''; } // TODO= MORE
     static toNumber(it) { return it.valueOf(); } // TODO= USE= super meth
-    static equal(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() !== y.valueOf() ? 0 : 1); }
-    static greaterThan(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() <= y.valueOf() ? 0 : 1); }
+    static equal(x, y) { return !(x.valueOf() !== y.valueOf()); }
+    static greaterThan(x, y) { return !(x.valueOf() <= y.valueOf()); }
     static add(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() + y.valueOf()); }
     static subtract(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() - y.valueOf()); }
     static multiply(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() * y.valueOf()); }
-    static divide(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() / y.valueOf()); }
+    static divide(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() / y.valueOf() >>> 0); }
     static remainder(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() % y.valueOf()); }
     static bitwiseAnd(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() & y.valueOf()); }
     static bitwiseOr(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() | y.valueOf()); }
