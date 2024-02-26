@@ -1,4 +1,8 @@
 
+ //
+ // JSBI callalike extending JS Number class, ie 32/52 bit-precision only
+ //
+
 ;class JSBI_dbl extends Number {
   /* private /**/ constructor(value :number) {
     super(value);
@@ -52,4 +56,30 @@
   static signedRightShift(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() >>> y.valueOf()); }
 // TODO?= isZero= (it: bigint_ish)=>JSBI_ish.equal(it, o__);
 }/**/
+
+((()=>{
+
+;interface Obje { [key: string]: any; }
+const globje = (() => { }).constructor('return this;')() as Obje;
+
+const idealName= 'JSBI_floatOnly';
+if (globje['NO_' + idealName]) {} else {
+
+  let counter= 0-1;
+  const suffix= function() {
+    if (++counter) {} else return '_';
+    const s__= '0' + counter.toString(2);
+    const s_= s__.replace(/0/g, '_');
+    const s= s_.replace(/1/g, '$');
+    return s;
+  }
+
+  let hopedName= idealName;
+  while (typeof globje[hopedName] !== 'undefined')
+    hopedName= idealName + suffix();
+
+  globje[hopedName] = JSBI_dbl;
+  console.log("Loaded JSBId as " + hopedName);
+
+}})());/**/
 
