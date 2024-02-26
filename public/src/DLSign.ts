@@ -1,26 +1,11 @@
 
-
 const NML11th_DLSign_globje= ( ()=>{} ).constructor('return this;')();
-/*
 (((je)=>{
-  je['JSBI']= je['JSBI_ntv'] || je['JSBI_gcl'] || je['JSBI_dbl'];
-})(NML11th_DLSign_globje)); /**/
-
-//NML11th_DLSign_globje['JSBI']= JSBI_dbl;
-//NML11th_DLSign_globje['JSBI']= JSBI_gcl;
-//NML11th_DLSign_globje['JSBI']= JSBI_ntv;
-NML11th_DLSign_globje['JSBI']=
-  NML11th_DLSign_globje['JSBI_ntv']? JSBI_ntv:
-  NML11th_DLSign_globje['JSBI_gcl']? JSBI_gcl:
-  JSBI_dbl;
-/*
-NML11th_DLSign_globje['JSBI']=
-     NML11th_DLSign_globje['JSBI_ntv']
-  || NML11th_DLSign_globje['JSBI_gcl']
-  || NML11th_DLSign_globje['JSBI_dbl']; /**/
+  je['JSBI']= je['JSBI_native'] || je['JSBI_GCLabs'] || je['JSBI_floatOnly'];
+})(NML11th_DLSign_globje));
 
 // PREAMBULATORY CONTEXT - Copied here to compile in the TS playground
-declare class JSBI extends Array {
+;declare class JSBI extends Array {
     private sign;
     private constructor();
     static BigInt(arg: number | string | boolean | object): JSBI;
@@ -154,13 +139,17 @@ const //set_timeout(0)(()=>{ //var globj= undefined;
  globje= ( ()=>{} ).constructor('return this;')();
  const jsbi__= typeof globje['JSBI'];
  const jsbi_= jsbi__==='undefined'? "": "JSBI " + jsbi__;
- globje['JSBI']= JSBI; // console.log("Added " + typeof (global_['JSBI']= JSBI));
+ globje['JSBI']= JSBI; // console.log("Added " + typeof (globje['JSBI']= JSBI));
  const jsbi= "JSBI " + typeof globje['JSBI'];
  console.log((jsbi===jsbi_? "Already have ": "Loaded " + (!jsbi_? "": jsbi + " over ")) + (!jsbi_? jsbi: jsbi_));
 //});
   **
   **
  \**/ // NB: sincere apologies for some rather iffy demodularization at this early stage of the project
+
+//NML11th_DLSign_globje['JSBI']= JSBI_dbl;
+//NML11th_DLSign_globje['JSBI']= JSBI_gcl;
+//NML11th_DLSign_globje['JSBI']= JSBI_ntv;
 
 ((()=>{
 
@@ -228,8 +217,8 @@ const NML11th_DLSign_ :draysigner_t__[]= [ { __: 'NML11th_DLSign',
   'globje': NML11th_DLSign_globje, 'JSBI': NML11th_DLSign_globje['JSBI'], } ];
 
 populate(NML11th_DLSign_); // see next
-NML11th_DLSign_globje['NML11th_DLSign']= NML11th_DLSign_[0]; // a temporary name, obviously
-///export default cgwvaPfG[0] as draysigner_t_;
+NML11th_DLSign_globje['NML11th_DLSign']= NML11th_DLSign_[0];
+///export default cgwvaPfG[0] as draysigner_t_; // a temporary name, obviously
 
  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 
