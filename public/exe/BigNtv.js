@@ -1,6 +1,9 @@
-
 "use strict";
-const BigIntCons = BigInt; // TODO= LOSE (ideally)
+//
+// JSBI callalike original class for browsers with native bigint support
+//
+;
+const BigIntConstructor_ = BigInt; // TODO= LOSE (ideally)
 ;
 class JSBI_ntv /* extends BigInt /**/ {
     /* private /**/ constructor(it) {
@@ -9,7 +12,7 @@ class JSBI_ntv /* extends BigInt /**/ {
     }
     static __this() { return this; }
     $() { return JSBI_ntv.__this(); }
-    __$() { return BigIntCons; } // TODO= FETCH from globje
+    __$() { return BigIntConstructor_; } // TODO= FETCH from globje
     static __Num2BigInt(arg) {
         if (Number.isFinite(arg) && Math.floor(arg) === arg) { }
         else
@@ -51,22 +54,29 @@ class JSBI_ntv /* extends BigInt /**/ {
     static bitwiseOr(x, y) { return new JSBI_ntv(x.it | y.it); }
     static leftShift(x, y) { return new JSBI_ntv(x.it << y.it); }
     static signedRightShift(x, y) { return new JSBI_ntv(x.it >> y.it); }
-}
+} /**/
 JSBI_ntv.__BigInt = (new JSBI_ntv(0n)).__$();
+((() => {
+    ;
+    const globje = (() => { }).constructor('return this;')();
+    const idealName = 'JSBI_native';
+    if (globje['NO_' + idealName]) { }
+    else {
+        let counter = 0 - 1;
+        const suffix = function () {
+            if (++counter) { }
+            else
+                return '_';
+            const s__ = '0' + counter.toString(2);
+            const s_ = s__.replace(/0/g, '_');
+            const s = s_.replace(/1/g, '$');
+            return s;
+        };
+        let hopedName = idealName;
+        while (typeof globje[hopedName] !== 'undefined')
+            hopedName = idealName + suffix();
+        globje[hopedName] = JSBI_ntv;
+        console.log("Loaded JSBIn as " + hopedName);
+    }
+})()); /**/
 
-/// ///export default JSBI_ntv;
-//setTimeout(()=>{ console.log("0o" + JSBI_ntv.BigInt('4242').toString(8)); }, 4999); // waits five secs, then prints '0o10222'
-
-(() => {
-  const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
-  if (globje['NJSBI_native']) { }
-  else {
-    const jsbi__ = typeof globje['JSBI_native'];
-    const jsbi_ = jsbi__ === 'undefined' ? "" : "JSBIn " + jsbi__;
-    globje['JSBI_native'] = JSBI_ntv;
-    const jsbi = "JSBIn " + typeof globje['JSBI_native'];
-    console.log((jsbi === jsbi_ ? "Already have " : "Loaded " + (!jsbi_ ? "" : jsbi + " over ")) + (!jsbi_ ? jsbi : jsbi_));
- }
-})();
-
-///export default globje; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
