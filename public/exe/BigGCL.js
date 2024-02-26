@@ -1,16 +1,19 @@
-
 "use strict";
+//
+// JSBI callalike renamed class for browsers lacking native bigint support
+//
+;
 // Orig source: <https://raw.githubusercontent.com/GoogleChromeLabs/jsbi/main/lib/jsbi.ts>
 // Transpiled to ES2015 in TS playground (<https://www.typescriptlang.org/play>)
 // Minimally extended (see end) and made module-agnostic (involving a few very minor addns)
-
-// NB: following comment is out-of-date as of mid-Feb '24 - pro tem, plz diff for changes
+;
+// NB: following comment is out-of-date as of end-Feb '24 - pro tem, plz diff for changes
 //
 // True source: <https://raw.githubusercontent.com/GoogleChromeLabs/jsbi/main/lib/jsbi.ts>
 // Dated 15th Aug '23 and taken 10th Feb '24, tho version # (=4.3.0) dates from April '22(!)
 // Final moduling line ("export default JSBI;") commented out to enable flexible inclusion
 // Code otherwise unmodified except for changes to comments (including this one, obviously)
-
+;
 // Copyright 2018 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the “License”);
@@ -37,6 +40,7 @@ class JSBI_gcl extends Array {
     }
     static __this() { return this; }
     $() { return JSBI_gcl.__this(); }
+    ;
     static BigInt(arg) {
         if (typeof arg === 'number') {
             if (arg === 0)
@@ -2045,19 +2049,32 @@ JSBI_gcl.__clz30 = Math.clz32 ? function (x) {
 JSBI_gcl.__imul = Math.imul || function (a, b) {
     return (a * b) | 0;
 };
+;
+((() => {
+    ;
+    const globje = (() => { }).constructor('return this;')();
+    ;
+    const idealName = 'JSBI_GCLabs';
+    if (globje['NO_' + idealName]) { }
+    else {
+        ;
+        let counter = 0 - 1;
+        const suffix = function () {
+            if (++counter) { }
+            else
+                return '_';
+            const s__ = '0' + counter.toString(2);
+            const s_ = s__.replace(/0/g, '_');
+            const s = s_.replace(/1/g, '$');
+            return s;
+        };
+        let hopedName = idealName;
+        while (typeof globje[hopedName] !== 'undefined')
+            hopedName = idealName + suffix();
+        ;
+        globje[hopedName] = JSBI_gcl;
+        console.log("Loaded JSBIg as " + hopedName);
+        ;
+    }
+})()); /**/
 
-/// ///export default JSBI_gcl;
-//setTimeout(()=>{ console.log("0o" + JSBI_gcl.BigInt('4242').toString(8)); }, 4999); // waits five secs, then prints '0o10222'
-
-(() => {
-  const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
-  if (globje['NJSBI_GCLabs']) { }
-  else {
-    const jsbi__ = typeof globje['JSBI_GCLabs'];
-    const jsbi_ = jsbi__ === 'undefined' ? "" : "JSBIg " + jsbi__;
-    globje['JSBI_GCLabs'] = JSBI_gcl;
-    const jsbi = "JSBIg " + typeof globje['JSBI_GCLabs'];
-    console.log((jsbi === jsbi_ ? "Already have " : "Loaded " + (!jsbi_ ? "" : jsbi + " over ")) + (!jsbi_ ? jsbi : jsbi_));
-  }
-})();
-///export default globje; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
