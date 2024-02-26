@@ -1,4 +1,6 @@
-
+declare const NML11th_DLSign_globje: {
+    [key: string]: any;
+};
 declare class JSBI extends Array {
     private sign;
     private constructor();
@@ -6,10 +8,10 @@ declare class JSBI extends Array {
     toDebugString(): string;
     toString(radix?: number): string;
     valueOf(): void;
-    static toNumber(x: JSBI): number;
+    static toNumber(x: JSBI): number; /**///
     static unaryMinus(x: JSBI): JSBI;
     static bitwiseNot(x: JSBI): JSBI;
-    static exponentiate(x: JSBI, y: JSBI): JSBI;
+    static exponentiate(x: JSBI, y: JSBI): JSBI; /**/
     static multiply(x: JSBI, y: JSBI): JSBI;
     static divide(x: JSBI, y: JSBI): JSBI;
     static remainder(x: JSBI, y: JSBI): JSBI;
@@ -17,16 +19,16 @@ declare class JSBI extends Array {
     static subtract(x: JSBI, y: JSBI): JSBI;
     static leftShift(x: JSBI, y: JSBI): JSBI;
     static signedRightShift(x: JSBI, y: JSBI): JSBI;
-    static unsignedRightShift(): void;
+    static unsignedRightShift(): void; /**///
     static lessThan(x: JSBI, y: JSBI): boolean;
-    static lessThanOrEqual(x: JSBI, y: JSBI): boolean;
-    static greaterThan(x: JSBI, y: JSBI): boolean;
-    static greaterThanOrEqual(x: JSBI, y: JSBI): boolean;
+    static lessThanOrEqual(x: JSBI, y: JSBI): boolean; /**/
+    static greaterThan(x: JSBI, y: JSBI): boolean; /**///
+    static greaterThanOrEqual(x: JSBI, y: JSBI): boolean; /**/
     static equal(x: JSBI, y: JSBI): boolean;
     static notEqual(x: JSBI, y: JSBI): boolean;
     static bitwiseAnd(x: JSBI, y: JSBI): JSBI;
     static bitwiseXor(x: JSBI, y: JSBI): JSBI;
-    static bitwiseOr(x: JSBI, y: JSBI): JSBI;
+    static bitwiseOr(x: JSBI, y: JSBI): JSBI; /**///
     static asIntN(n: number, x: JSBI): JSBI;
     static asUintN(n: number, x: JSBI): JSBI;
     static ADD(x: any, y: any): string | number | JSBI;
@@ -115,14 +117,15 @@ declare class JSBI extends Array {
     static __kBitConversionInts: Int32Array;
     static __clz30: (x: number) => number;
     static __imul: (x: number, y: number) => number;
-    static __isOneDigitInt(x: number): boolean;
+    static __isOneDigitInt(x: number): boolean; /**/
 }
-
+//type bignat = JSBI; // This would be my choice of name for the ADT but, hell, it's your app :-)
+declare const BigNat4str: (s: string) => JSBI;
+declare const BigNat4num: (n: number | boolean) => JSBI;
 type signer_vrfy_t_ = (y: string, e: string, s: string) => string;
 type hasher_afn_t_ = (_: string) => Promise<string>;
-
 interface draysigner_t_ {
-    _: string;
+    __: string;
     globje: object;
     'JSBI': typeof JSBI;
     key_r: (str: string) => string;
@@ -135,8 +138,21 @@ interface draysigner_t_ {
     verify: (verifier: signer_vrfy_t_, hasher: hasher_afn_t_
        ) => (pubkey: string
        ) => (message: string, evidence: string, signature: string) => Promise<boolean>;
-}/**/
-
-///declare const _default: draysigner_t_;
-///export default _default;
+}
+interface draysigner_t__ {
+    __: string;
+    globje: object;
+    'JSBI': typeof JSBI;
+    key_r?: (str: string) => string;
+    key_u?: (r: string) => string;
+    sign_k?: (str: string) => string;
+    sign_gk?: (k: string) => string;
+    sign?: (r: string
+      ) => (k: string, e: string) => string;
+    vrfy?: (y: string, e: string, s: string) => string;
+    verify?: (verifier: signer_vrfy_t_, hasher: hasher_afn_t_
+        ) => (pubkey: string
+        ) => (message: string, evidence: string, signature: string) => Promise<boolean>;
+}
+declare const NML11th_DLSign_: draysigner_t__[];
 
