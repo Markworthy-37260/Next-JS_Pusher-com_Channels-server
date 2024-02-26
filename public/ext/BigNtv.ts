@@ -1,5 +1,9 @@
 
-const BigIntCons :BigIntConstructor= BigInt; // TODO= LOSE (ideally)
+ //
+ // JSBI callalike original class for browsers with native bigint support
+ //
+
+const BigIntConstructor_ :BigIntConstructor= BigInt; // TODO= LOSE (ideally)
 
 ;class JSBI_ntv /* extends BigInt /**/ { // TODO?= MAYBE= extend Number?
   /* private /**/ constructor(private it :bigint) { //super(NaN);
@@ -7,7 +11,7 @@ const BigIntCons :BigIntConstructor= BigInt; // TODO= LOSE (ideally)
   }
   static __this() { return this; }
   $() { return JSBI_ntv.__this(); }
-  __$() :BigIntConstructor { return BigIntCons; } // TODO= FETCH from globje
+  __$() :BigIntConstructor { return BigIntConstructor_; } // TODO= FETCH from globje
   static __BigInt :BigIntConstructor= (new JSBI_ntv(0n)).__$();
 
   static __Num2BigInt(arg :number) :JSBI_ntv {
@@ -46,4 +50,30 @@ const BigIntCons :BigIntConstructor= BigInt; // TODO= LOSE (ideally)
   static signedRightShift(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it >> y.it); }
 // TODO?= isZero= (it: bigint_ish)=>JSBI_ish.equal(it, o__);
 }/**/
+
+((()=>{
+
+;interface Obje { [key: string]: any; }
+const globje = (() => { }).constructor('return this;')() as Obje;
+
+const idealName= 'JSBI_native';
+if (globje['NO_' + idealName]) {} else {
+
+  let counter= 0-1;
+  const suffix= function() {
+    if (++counter) {} else return '_';
+    const s__= '0' + counter.toString(2);
+    const s_= s__.replace(/0/g, '_');
+    const s= s_.replace(/1/g, '$');
+    return s;
+  }
+
+  let hopedName= idealName;
+  while (typeof globje[hopedName] !== 'undefined')
+    hopedName= idealName + suffix();
+
+  globje[hopedName] = JSBI_ntv;
+  console.log("Loaded JSBIn as " + hopedName);
+
+}})());/**/
 
