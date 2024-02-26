@@ -1,7 +1,7 @@
-
- // Callalike for JSBI extending JS Number class, ie 32/52 bit-precision only
-
 "use strict";
+//
+// JSBI callalike extending JS Number class, ie 32/52 bit-precision only
+//
 ;
 class JSBI_dbl extends Number {
     /* private /**/ constructor(value) {
@@ -60,21 +60,28 @@ class JSBI_dbl extends Number {
     static bitwiseOr(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() | y.valueOf()); }
     static leftShift(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() << y.valueOf()); }
     static signedRightShift(x, y) { return JSBI_dbl.__Num2BigInt(x.valueOf() >>> y.valueOf()); }
-}
+} /**/
+((() => {
+    ;
+    const globje = (() => { }).constructor('return this;')();
+    const idealName = 'JSBI_floatOnly';
+    if (globje['NO_' + idealName]) { }
+    else {
+        let counter = 0 - 1;
+        const suffix = function () {
+            if (++counter) { }
+            else
+                return '_';
+            const s__ = '0' + counter.toString(2);
+            const s_ = s__.replace(/0/g, '_');
+            const s = s_.replace(/1/g, '$');
+            return s;
+        };
+        let hopedName = idealName;
+        while (typeof globje[hopedName] !== 'undefined')
+            hopedName = idealName + suffix();
+        globje[hopedName] = JSBI_dbl;
+        console.log("Loaded JSBId as " + hopedName);
+    }
+})()); /**/
 
-/// ///export default JSBI_dbl;
-//setTimeout(()=>{ console.log("0o" + JSBI_dbl.BigInt('4242').toString(8)); }, 4999); // waits five secs, then prints '0o10222'
-
-(() => {
-  const globje = (() => { }).constructor('return this;')(); // as Obje; // ;interface Obje { [key: string]: any; }
-  if (globje['NJSBI_floatOnly']) { }
-  else {
-    const jsbi__ = typeof globje['JSBI_floatOnly'];
-    const jsbi_ = jsbi__ === 'undefined' ? "" : "JSBId " + jsbi__;
-    globje['JSBI_floatOnly'] = JSBI_dbl;
-    const jsbi = "JSBId " + typeof globje['JSBI_floatOnly'];
-    console.log((jsbi === jsbi_ ? "Already have " : "Loaded " + (!jsbi_ ? "" : jsbi + " over ")) + (!jsbi_ ? jsbi : jsbi_));
-  }
-})();
-
-///export default globje; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
