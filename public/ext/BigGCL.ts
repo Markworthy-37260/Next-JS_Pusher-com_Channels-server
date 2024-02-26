@@ -1,11 +1,19 @@
 
- // NB: following comment is out-of-date as of mid-Feb '24 - pro tem, plz diff for changes
-
+ //
+ // JSBI callalike original class for browsers with native bigint support
+ //
+;
+ // Orig source: <https://raw.githubusercontent.com/GoogleChromeLabs/jsbi/main/lib/jsbi.ts>
+ // Transpiled to ES2015 in TS playground (<https://www.typescriptlang.org/play>)
+ // Minimally extended (see end) and made module-agnostic (involving a few very minor addns)
+;
+ // NB: following comment is out-of-date as of end-Feb '24 - pro tem, plz diff for changes
+ //
  // True source: <https://raw.githubusercontent.com/GoogleChromeLabs/jsbi/main/lib/jsbi.ts>
  // Dated 15th Aug '23 and taken 10th Feb '24, tho version # (=4.3.0) dates from April '22(!)
  // Final moduling line ("export default JSBI;") commented out to enable flexible inclusion
  // Code otherwise unmodified except for changes to comments (including this one, obviously)
-
+;
 // Copyright 2018 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the “License”);
@@ -31,7 +39,7 @@
   }
   static __this() { return this; }
   $() { return JSBI_gcl.__this(); }
-
+;
   static BigInt(arg: number|string|boolean|object) :JSBI_gcl {
     if (typeof arg === 'number') {
       if (arg === 0) return JSBI_gcl.__zero();
@@ -1985,5 +1993,31 @@
   static __isOneDigitInt(x: number) {
     return (x & 0x3FFFFFFF) === x;
   }
-}
+}/**/
+;
+((()=>{
+
+;interface Obje { [key: string]: any; }
+const globje = (() => { }).constructor('return this;')() as Obje;
+;
+const idealName= 'JSBI_GCLabs';
+if (globje['NO_' + idealName]) {} else {
+;
+  let counter= 0-1;
+  const suffix= function() {
+    if (++counter) {} else return '_';
+    const s__= '0' + counter.toString(2);
+    const s_= s__.replace(/0/g, '_');
+    const s= s_.replace(/1/g, '$');
+    return s;
+  }
+;
+  let hopedName= idealName;
+  while (typeof globje[hopedName] !== 'undefined')
+    hopedName= idealName + suffix();
+;
+  globje[hopedName] = JSBI_gcl;
+  console.log("Loaded JSBIg as " + hopedName);
+;
+}})());/**/
 
