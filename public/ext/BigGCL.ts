@@ -1,6 +1,6 @@
 
  //
- // JSBI callalike original class for browsers with native bigint support
+ // JSBI callalike renamed class for browsers lacking native bigint support
  //
 ;
  // Orig source: <https://raw.githubusercontent.com/GoogleChromeLabs/jsbi/main/lib/jsbi.ts>
