@@ -1,7 +1,9 @@
 
-const NML11th_DLSign_globje= ( ()=>{} ).constructor('return this;')();
-(((je)=>{
-  je['JSBI']= je['JSBI_native'] || je['JSBI_GCLabs'] || je['JSBI_floatOnly'];
+;const NML11th_DLSign_globje=
+  ( ()=>{} ).constructor('return this;')() as { [key: string]: any; };
+
+;(((je)=>{ je['JSBI']=
+          je['JSBI_native'] || je['JSBI_GCLabs'] || je['JSBI_floatOnly'];
 })(NML11th_DLSign_globje));
 
 // PREAMBULATORY CONTEXT - Copied here to compile in the TS playground
@@ -12,10 +14,10 @@ const NML11th_DLSign_globje= ( ()=>{} ).constructor('return this;')();
     toDebugString(): string;
     toString(radix?: number): string;
     valueOf(): void;
-    static toNumber(x: JSBI): number;
-//    static unaryMinus(x: JSBI): JSBI;
-//    static bitwiseNot(x: JSBI): JSBI;
-//    static exponentiate(x: JSBI, y: JSBI): JSBI;
+    static toNumber(x: JSBI): number; /**
+    static unaryMinus(x: JSBI): JSBI;
+    static bitwiseNot(x: JSBI): JSBI;
+    static exponentiate(x: JSBI, y: JSBI): JSBI; /**/
     static multiply(x: JSBI, y: JSBI): JSBI;
     static divide(x: JSBI, y: JSBI): JSBI;
     static remainder(x: JSBI, y: JSBI): JSBI;
@@ -23,16 +25,16 @@ const NML11th_DLSign_globje= ( ()=>{} ).constructor('return this;')();
     static subtract(x: JSBI, y: JSBI): JSBI;
     static leftShift(x: JSBI, y: JSBI): JSBI;
     static signedRightShift(x: JSBI, y: JSBI): JSBI;
-    static unsignedRightShift(): void;
-//    static lessThan(x: JSBI, y: JSBI): boolean;
-//    static lessThanOrEqual(x: JSBI, y: JSBI): boolean;
-    static greaterThan(x: JSBI, y: JSBI): boolean;
-//    static greaterThanOrEqual(x: JSBI, y: JSBI): boolean;
+    static unsignedRightShift(): void; /**
+    static lessThan(x: JSBI, y: JSBI): boolean;
+    static lessThanOrEqual(x: JSBI, y: JSBI): boolean; /**/
+    static greaterThan(x: JSBI, y: JSBI): boolean; /**
+    static greaterThanOrEqual(x: JSBI, y: JSBI): boolean; /**/
     static equal(x: JSBI, y: JSBI): boolean;
-//    static notEqual(x: JSBI, y: JSBI): boolean;
+    static notEqual(x: JSBI, y: JSBI): boolean;
     static bitwiseAnd(x: JSBI, y: JSBI): JSBI;
     static bitwiseXor(x: JSBI, y: JSBI): JSBI;
-    static bitwiseOr(x: JSBI, y: JSBI): JSBI; /***
+    static bitwiseOr(x: JSBI, y: JSBI): JSBI; /**
     static asIntN(n: number, x: JSBI): JSBI;
     static asUintN(n: number, x: JSBI): JSBI;
     static ADD(x: any, y: any): string | number | JSBI;
@@ -121,7 +123,7 @@ const NML11th_DLSign_globje= ( ()=>{} ).constructor('return this;')();
     static __kBitConversionInts: Int32Array;
     static __clz30: (x: number) => number;
     static __imul: (x: number, y: number) => number;
-    static __isOneDigitInt(x: number): boolean; ***/
+    static __isOneDigitInt(x: number): boolean; /**/
 }/**/
 
  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
@@ -151,21 +153,21 @@ const //set_timeout(0)(()=>{ //var globj= undefined;
 //NML11th_DLSign_globje['JSBI']= JSBI_gcl;
 //NML11th_DLSign_globje['JSBI']= JSBI_ntv;
 
-((()=>{
+;((()=>{
 
 //const set_timeout= (ms)=>(fn, ...args)=>setTimeout(fn, ms, ...args);
 //setTimeout(()=>{ console.log("0o" + JSBI.BigInt('4242').toString(8)); }, 9999); // waits ten secs and prints 0o10222
 //setTimeout(()=>{ console.log("DS"+JSBI.unaryMinus(JSBI.BigInt('4242')).toString(8)); }, 4999);
-console.log("DS-"+JSBI.add(JSBI.BigInt(false), JSBI.BigInt('4242')).toString(8));
+;console.log("DS-"+JSBI.add(JSBI.BigInt(false), JSBI.BigInt('4242')).toString(8));
 const sbz= ('-').charCodeAt(0) - JSBI.subtract(JSBI.BigInt(0), JSBI.BigInt('0b101')).toString().charCodeAt(0);
-if (!sbz) {} else throw " :-( @"+13+": !!"+sbz;
+if (!sbz) {} else throw " :-( @"+329+": !!"+sbz;
 
 //const set_timeout= (ms: number)=>(fn: TimerHandler, ...args)=>setTimeout(fn, ms, ...args);
-const set_timeout= (ms :number
+;const set_timeout= (ms :number
                 )=>(fn :(d :any)=>any, ...args :any[]
                 )=>setTimeout(fn, ms, ...args);
 
-set_timeout(0)(()=>{ //console.log("10222 === " + (JSBI.BigInt(4242)).toString(8));
+;set_timeout(0)(()=>{ //console.log("10222 === " + (JSBI.BigInt(4242)).toString(8));
   const max= JSBI.BigInt(Number.MAX_SAFE_INTEGER);
   console.log(String(max) + " === 0x" + max.toString(16)); // → '9007199254740991'
   const two= JSBI.BigInt('2'), result= JSBI.add(two, max);
@@ -174,12 +176,13 @@ set_timeout(0)(()=>{ //console.log("10222 === " + (JSBI.BigInt(4242)).toString(8
     
 })());
 
- /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 
-;type bignat= JSBI; // SIX
-//const JSBN= JSBI;
-const BigNat4str= (s :string)=>JSBI.BigInt(s); // SIX
-const BigNat4num= (n :number|boolean)=>JSBI.BigInt(n); // SIX
+;type bignat_t= JSBI; // MAYBE= ;type bignat_meta= typeof JSBI;
+const JSBI_= NML11th_DLSign_globje['JSBI'] || JSBI; // MAYBE= const bignat_vtbl= JSBI;
+
+const BigNat4str= (s :string)=>JSBI_.BigInt(s);
+const BigNat4num= (n :number|boolean)=>JSBI_.BigInt(n);
 
 //const _146= {} as it_t_; type vrfy_t__= typeof _146.vrfy;
 ;type signer_vrfy_t_= (y: string, e: string, s: string) => string;
@@ -192,7 +195,8 @@ const BigNat4num= (n :number|boolean)=>JSBI.BigInt(n); // SIX
   key_u: (r :string) => string;
   sign_k: (str :string) => string;
   sign_gk: (k :string) => string;
-  sign: (r :string) => (k :string, e :string) => string;
+  sign: (r :string
+   ) => (k :string, e :string) => string;
   vrfy: (y :string, e :string, s :string) => string;
   verify: (verifier :signer_vrfy_t_, hasher :hasher_afn_t_
       ) => (pubkey: string
@@ -205,7 +209,8 @@ const BigNat4num= (n :number|boolean)=>JSBI.BigInt(n); // SIX
   key_u?: (r :string) => string;
   sign_k?: (str :string) => string;
   sign_gk?: (k :string) => string;
-  sign?: (r :string) => (k :string, e :string) => string;
+  sign?: (r :string
+    ) => (k :string, e :string) => string;
   vrfy?: (y :string, e :string, s :string) => string;
   verify?: (verifier :signer_vrfy_t_, hasher :hasher_afn_t_
       ) => (pubkey: string
@@ -213,16 +218,16 @@ const BigNat4num= (n :number|boolean)=>JSBI.BigInt(n); // SIX
       ) => Promise<boolean>;
 };
 
-const NML11th_DLSign_ :draysigner_t__[]= [ { __: 'NML11th_DLSign',
+;const NML11th_DLSign_ :draysigner_t__[]= [ { __: 'NML11th_DLSign',
   'globje': NML11th_DLSign_globje, 'JSBI': NML11th_DLSign_globje['JSBI'], } ];
 
-populate(NML11th_DLSign_); // see next
+;NML11th_DLSign_populate(NML11th_DLSign_); // see next
 NML11th_DLSign_globje['NML11th_DLSign']= NML11th_DLSign_[0];
 ///export default cgwvaPfG[0] as draysigner_t_; // a temporary name, obviously
 
- /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 
-function populate(it: draysigner_t__[]) {{
+;function NML11th_DLSign_populate(it: draysigner_t__[]) {{
 
 /**
 const p321a= '100000000000000000000000000000000000004ac158f960042437cb88fd5777e8d51b9865bc460fb';
@@ -233,36 +238,36 @@ const p321a= '2327';
 const p2048a= '5A7D651'; // 2326ffffb9b3 (?)
 const p1554a= '293'; /**/
 
-const tox= (big :bignat)=>big.toString(16); // SIX
-const frox= (hex :string)=>JSBI.BigInt("0x" + hex); // SIX
+const tox= (big :bignat_t)=>big.toString(16);
+const frox= (hex :string)=>BigNat4str("0x" + hex);
 
-const q1= frox(p321a); // JSBI.BigInt(p321a);
+const q1= frox(p321a); // BigNat4str("0x" + p321a);
 console.log("" + tox(q1) + " === ...4ac158f960042437cb88fd5777e8d51b9865bc460fb");
-const p1= frox(p2048a); // JSBI.BigInt(p2048a);
+const p1= frox(p2048a); // BigNat4str("0x" + p2048a);
 const p0= frox(p1554a);
 
-//const BigNat_= (n :number)=>BigNat(n.toString()); // SIX
-const upby_= (by :bignat)=>(n :bignat)=>JSBI.leftShift(n, by);
-const dnby_= (by :bignat)=>(n :bignat)=>JSBI.signedRightShift(n, by);
-const sub_= (y :bignat)=>(x :bignat)=>JSBI.subtract(x, y);
+//const BigNat_= (n :number)=>BigNat4str(n.toString());
+const upby_= (by :bignat_t)=>(n :bignat_t)=>JSBI_.leftShift(n, by);
+const dnby_= (by :bignat_t)=>(n :bignat_t)=>JSBI_.signedRightShift(n, by);
+const sub_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.subtract(x, y);
 
-const l= BigNat4num(true), o= dnby_(l)(l), z= upby_(l)(l); // SIX
-const c1= z;
+const l= BigNat4num(true), o= dnby_(l)(l), z= upby_(l)(l);
+const c1= z; // NB: dubious hardcoding
 const q_c= sub_(c1)(q1);
 
-const add_= (y :bignat)=>(x :bignat)=>JSBI.add(x, y);
+const add_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.add(x, y);
 const inc= add_(l);
-const dec= sub_(l);
+const dec= sub_(l); // inessential
 
-const mul_= (y :bignat)=>(x :bignat)=>JSBI.multiply(x, y);
-const div_= (y :bignat)=>(x :bignat)=>JSBI.divide(x, y); // SIX
-const mod_= (y :bignat)=>(x :bignat)=>JSBI.remainder(x, y);
-//const mad__= (m :bignat)=>(y :bignat)=>(x :bignat)=>JSBI.remainder(JSBI.add(x, y), m);
+const mul_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.multiply(x, y);
+const div_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.divide(x, y); // inessential
+const mod_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.remainder(x, y);
+//const mad__= (m :bignat_t)=>(y :bignat_t)=>(x :bignat_t)=>JSBI_.remainder(JSBI_.add(x, y), m);
 
-if (!!!!!!JSBI.toNumber(o)) {} else
+if (!!!!!!JSBI_.toNumber(o)) {} else
 ((()=>{
   const p__= div_(z)(p1);
-  const r_= div_(q1)(p__); // SIX
+  const r_= div_(q1)(p__);
   const r= div_(p0)(r_);
   const r__= add_(r)(r);
   const qp0= mul_(p0)(q1);
@@ -270,63 +275,60 @@ if (!!!!!!JSBI.toNumber(o)) {} else
   console.log(""+diff.toString()+" r="+r.toString()+" ("+r.toString(2).length+" bits) == 0x"+r.toString(16));
 })());
 
-const eq_= (y :bignat)=>(x :bignat)=>JSBI.equal(x, y);
-const le_= (y :bignat)=>(x :bignat)=>!JSBI.greaterThan(x, y); // SIX
-const zero= (x :bignat)=>eq_(o)(x);
-const one= (x :bignat)=>eq_(l)(x);
+const eq_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.equal(x, y);
+const le_= (y :bignat_t)=>(x :bignat_t)=>!JSBI_.greaterThan(x, y);
+const zero= (x :bignat_t)=>eq_(o)(x);
+const one= (x :bignat_t)=>eq_(l)(x);
 
-const band_= (y :bignat)=>(x :bignat)=>JSBI.bitwiseAnd(x, y);
-//const bior_= (y)=>(x)=>JSBI.bitwiseOr(x, y);
+const band_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.bitwiseAnd(x, y);
+//const bior_= (y)=>(x)=>JSBI_.bitwiseOr(x, y);
 
-const mulmod_= (m :bignat)=>{ // const mulmod_= (m)=>(y)=>(x)=>mod_(m)(mul_(y)(x)); // SIX
+const mulmod_= (m :bignat_t)=>{ // const mulmod_= (m)=>(y)=>(x)=>mod_(m)(mul_(y)(x));
   const f= mod_(m);
-  return (y ?:bignat)=>(y? ( (x :bignat)=>f(mul_(y)(x)) ): ( (x :bignat)=>f(mul_(x)(x)) )); // SIX
+  return (y ?:bignat_t
+      )=>(y? ( (x :bignat_t)=>f(mul_(y)(x)) ): ( (x :bignat_t)=>f(mul_(x)(x)) ));
 }
 const _221= mulmod_(o); type mulmod__t_= typeof _221; // TODO= BETTER(?)
 
-const powmod__= (mm_: mulmod__t_)=>(y :bignat)=>(x :bignat)=>{ // SIX
+const powmod__= (mm_: mulmod__t_
+             )=>(y :bignat_t
+             )=>(x :bignat_t)=>{ // TODO= (x :string)
   let b= l, q= l;
   if (le_(y)(b)) {} else return q;
 
   for (;;) {
-    if (zero(band_(y)(b))) {} else q= mm_(x)(q); // SIX
+    if (zero(band_(y)(b))) {} else q= mm_(x)(q);
     b= upby_(l)(b);
     if (le_(y)(b)) {} else return q;
     x= mm_()(x);
   }
 }
-const powmod_= (m :bignat)=>{ // SIX
+const powmod_= (m :bignat_t)=>{
   const mm_= mulmod_(m);
   return powmod__(mm_);
 }
 
 const pump1= powmod_(p1);
-const generator= (p :bignat, pm_ :typeof pump1, q :bignat // SIX
+const generator= (p :bignat_t, pm_ :typeof pump1, q :bignat_t
                 )=>(limit: number
                 )=>{
   const k= div_(q)(dec(p));
   const pm= pm_(k);
-/**/
+
   const f= (r :number)=>
-           pm(BigNat4num(r)); // SIX
+           pm(BigNat4num(r));
   let rv= f(2);
   let i= 1;
   while (one(rv) && (i+= 2)<=limit) rv= f(i);
-/*/
-  const f= (r :string)=>
-           pm(JSBI.BigInt(r)); // SIX
-  let rv= f('2');
-  let i= 1;
-  while (one(rv) && (i+= 2)<=limit) rv= f(i.toString());
-/**/
-  if (i<=limit) {} else throw " :-( @"+72; // This ought to be highly improbable, so failure surely implies a mistake
+
+  if (i<=limit) {} else throw " :-( @"+487; // This ought to be highly improbable, so failure surely implies a mistake
   return rv;
 }
 const gen1= generator(p1, pump1, q1)
 
 //const D= (it :string)=>BigNat("00"+it.trim());
 const B= (it: string)=>BigNat4str("0b"+it.trim());
-const O= (it: string)=>BigNat4str("0o"+it.trim()); // SIX
+const O= (it: string)=>BigNat4str("0o"+it.trim());
 const X= (it: string)=>BigNat4str("0x"+it.trim());
 
 //function identity__(x: any) { return x; }; type id_t__= typeof identity__; // TODO= BETTER
@@ -335,7 +337,8 @@ const identity_= function <Type> ( arg :Type ) :Type { return arg; } // TODO= LE
 ;type id_t_= typeof identity_;
 
 const prepkey= (post :id_t_)=>(radix= 10)=>{
-  const it= (pre :string)=>(str :string)=>post(BigNat4str(""+pre+str)).toString(2); // SIX
+  const it= (pre :string
+         )=>(str :string)=>post(BigNat4str(""+pre+str)).toString(2);
   if (radix % 10) {} else if (radix===10) return it(""); else throw " :-( @"+114;
   
   const l= Math.floor(Math.log(radix)/Math.log(2)+0.5);
@@ -343,8 +346,9 @@ const prepkey= (post :id_t_)=>(radix= 10)=>{
   if (1<<l===radix && s.charCodeAt(1)!==32) {} else throw " :-( @"+118;
   return it(s.trim());
 }
-const pubkey= (radix= 8)=>(p :bignat, q :bignat, g :bignat)=>(r :string)=> // SIX
-  powmod_(p)(sub_(B(r))(q))(g).toString(radix);
+const pubkey= (radix= 8
+           )=>(p :bignat_t, q :bignat_t, g :bignat_t
+           )=>(r :string)=>powmod_(p)(sub_(B(r))(q))(g).toString(radix);
 
 const g1= gen1(7); // let's be lucky?!?
 console.log(String(g1) + " == 0x" + g1.toString(16));
@@ -353,7 +357,8 @@ const g2q= pump1(q1)(g1);
 console.log(String(g2q) + " == 0x" + g2q.toString(16));
 if (one(g2q)) {} else throw " :-( @"+81; // These two tests are a sound (if incomplete) check of the scheme params
 
-const qc1= ((k :bignat)=>((inc( mod_(q_c)(k) )) as bignat)) as id_t_; // TODO= LEARN precedence // SIX
+const qc1= ( (k :bignat_t
+          )=>((inc( mod_(q_c)(k) )) as bignat_t) ) as id_t_; // TODO= LEARN precedence
 it[0].key_r= prepkey(qc1)();
 it[0].key_u= pubkey()(p1, q1, g1);
 //const R= prepkey(qc1); const U= it.key_u;
@@ -363,16 +368,23 @@ it[0].key_u= pubkey()(p1, q1, g1);
 
 it[0].sign_k= it[0].key_r; // k= H() % q_c + l;
 
-const sign_gk= (radix= 32)=>(k :string)=>(pump1(B(k))(g1)).toString(radix); // gk= pm(g, k, p).toString(32);
+const sign_gk= (radix= 32
+            )=>(k :string
+            )=>(pump1(B(k))(g1)).toString(radix); // gk= pm(g, k, p).toString(32);
 it[0].sign_gk= sign_gk(); // e= H(gk...)
 
-const sign= (radix= 16)=>(q :bignat)=>(r :string)=>(k :string, e :string)=> // SIX
-  mod_(q)(add_(B(k))(mul_(B(r))(X(e)))).toString(radix); // s= (e * x + k) % q;
+const sign= (radix= 16
+         )=>(q :bignat_t
+         )=>(r :string
+         )=>(k :string, e :string
+         )=>mod_(q)(add_(B(k))(mul_(B(r))(X(e)))).toString(radix); // s= (e * x + k) % q;
 it[0].sign= sign()(q1);
 
-const yegs= (radix= 32)=>(p :bignat, g :bignat)=>{ // SIX
+const yegs= (radix= 32
+         )=>(p :bignat_t, g :bignat_t)=>{
   const mm_= mulmod_(p); // const pm_= powmod_(p);
-  return (y :string, e :string, s :string)=>mm_(pump1(X(s))(g))(pump1(X(e))(O(y))).toString(radix); // pm(y, e, p) * pm(g, s, p) % p;
+  return (y :string, e :string, s :string
+      )=>mm_(pump1(X(s))(g))(pump1(X(e))(O(y))).toString(radix); // pm(y, e, p) * pm(g, s, p) % p;
 }
 it[0].vrfy= yegs()(p1, g1);
 
@@ -391,7 +403,7 @@ it[0].verify= verify;
 }/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 }/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 
-setTimeout((async ()=>{{
+;setTimeout((async ()=>{{
 
   const it= NML11th_DLSign_[0] as draysigner_t_;
 
@@ -405,10 +417,11 @@ setTimeout((async ()=>{{
   const e= h3_;
   const s= it.sign(x)(k, e); console.log("s= " + s);
   const v= it.vrfy(y, e, s); console.log("v= " + v);
-  const b= await it.verify(it.vrfy, async (_ :string)=>(h3_))(y)("", e, s); console.log("b= " + b);
+  const b= await it.verify(it.vrfy, async (_ :string
+                                       )=>(h3_))(y)("", e, s); console.log("b= " + b);
 }}), 99);
 
  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
 
-const ___cgwvaPfG :string= NaN; ___cgwvaPfG; // Provoke the playground into reporting unused variables (!)
+;const ___cgwvaPfG :string= NaN; ___cgwvaPfG; // Provoke the playground into reporting unused variables (!)
 
