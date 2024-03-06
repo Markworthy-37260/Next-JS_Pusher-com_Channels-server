@@ -1,0 +1,1563 @@
+
+ //
+ // JSBI callalike extending JS Number class, ie 32/52 bit-precision only
+ //
+
+;class JSBI_dbl extends Number {
+  /* private /**/ constructor(value :number) {
+    super(value);
+    Object.setPrototypeOf(this, JSBI_dbl.prototype);
+  }
+  static __this() { return this; }
+  $() { return JSBI_dbl.__this(); }
+
+  static __Num2BigInt(arg :number) :JSBI_dbl {
+    if (Number.isFinite(arg) && Math.floor(arg) === arg) {}
+    else throw new RangeError('The number ' + arg + ' cannot be converted to '
+                       + 'a BigInt because it is not an integer');
+    return new JSBI_dbl(arg);
+  }
+  static BigInt(arg :number|string|boolean|object) :JSBI_dbl {
+
+    if (typeof arg !== 'string') {} else {
+      const rch= arg.charCodeAt(1)+1; // When ANDed with three: b->3, o->0, x->1
+      const radix= (rch&32? 'ox b': 'OX B').charCodeAt(rch&3)+1 === rch?
+        1<<('3491'.charCodeAt(rch&3)-48): // '9' can't happen, but would throw:-
+        0;
+      const num= parseInt(arg.slice(radix? 2: 0), radix || 10);
+      if (!Number.isNaN(num)) {}
+      else throw new SyntaxError('Cannot convert ' + arg + ' to a BigInt');
+      return JSBI_dbl.__Num2BigInt(num);
+    }
+    if (typeof arg !== 'number') {} else return JSBI_dbl.__Num2BigInt(arg);
+    if (typeof arg !== 'boolean') {} else return new JSBI_dbl(arg? 1: 0);
+
+    if (typeof arg !== 'object') {} else {
+      if (arg.constructor === JSBI_dbl) return arg;
+//      const primitive= JSBI_dbl.__toPrimitive(arg);
+//      return JSBI_dbl.BigInt(primitive); // TODO= ADD BACK
+    }
+    throw new TypeError('Cannot convert ' + arg + ' to a BigInt');
+  }
+  toDebugString() :string { return this.valueOf().toString(); } // TODO= CHECK= orig
+  toString(radix? :number) :string { return this.valueOf().toString(radix || 10); } // TODO= (ditto)
+  // valueOf() :number { throw ''; } // TODO= MORE
+  static toNumber(it :JSBI_dbl) :number { return it.valueOf(); } // TODO= USE= super meth
+  static equal(x :JSBI_dbl, y :JSBI_dbl) :boolean { return !(x.valueOf() !== y.valueOf()); }
+  static greaterThan(x :JSBI_dbl, y :JSBI_dbl) :boolean { return !(x.valueOf() <= y.valueOf()); }
+  static add(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() + y.valueOf()); }
+  static subtract(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() - y.valueOf()); }
+  static multiply(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() * y.valueOf()); }
+  static divide(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() / y.valueOf() >>> 0); }
+  static remainder(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() % y.valueOf()); }
+  static bitwiseAnd(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() & y.valueOf()); }
+  static bitwiseOr(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() | y.valueOf()); }
+  static leftShift(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() << y.valueOf()); }
+  static signedRightShift(x :JSBI_dbl, y :JSBI_dbl) :JSBI_dbl { return JSBI_dbl.__Num2BigInt(x.valueOf() >>> y.valueOf()); }
+// TODO?= isZero= (it: bigint_ish)=>JSBI_ish.equal(it, o__);
+}/**/
+
+((()=>{
+
+;interface Obje { [key: string]: any; }
+const globje = (() => { }).constructor('return this;')() as Obje;
+
+const idealName= 'JSBI_floatOnly';
+if (globje['NO_' + idealName]) {} else {
+
+  let counter= 0-1;
+  const suffix= function() {
+    if (++counter) {} else return '_';
+    const s__= '0' + counter.toString(2);
+    const s_= s__.replace(/0/g, '_');
+    const s= s_.replace(/1/g, '$');
+    return s;
+  }
+
+  let hopedName= idealName;
+  while (typeof globje[hopedName] !== 'undefined')
+    hopedName= idealName + suffix();
+
+  globje[hopedName] = JSBI_dbl;
+  console.log("Loaded JSBId as " + hopedName);
+
+}})());/**/
+
+//
+
+ //
+ // JSBI callalike original class for browsers with native bigint support
+ //
+/**
+;const BigIntConstructor_ :BigIntConstructor= BigInt; // TODO= LOSE (ideally)
+
+;class JSBI_ntv /* extends BigInt /** { // TODO?= MAYBE= extend Number?
+  /* private /** constructor(private it :bigint) { //super(NaN);
+    Object.setPrototypeOf(this, JSBI_ntv.prototype);
+  }
+  static __this() { return this; }
+  $() { return JSBI_ntv.__this(); }
+  __$() :BigIntConstructor { return BigIntConstructor_; } // TODO= FETCH from globje
+  static __BigInt :BigIntConstructor= (new JSBI_ntv(0n)).__$();
+
+  static __Num2BigInt(arg :number) :JSBI_ntv {
+    if (Number.isFinite(arg) && Math.floor(arg) === arg) {}
+    else throw new RangeError('The number ' + arg + ' cannot be converted to '
+                       + 'a BigInt because it is not an integer');
+    return new JSBI_ntv(JSBI_ntv.__BigInt(arg));
+  }
+  static BigInt(arg :number|string|boolean|object) :JSBI_ntv {
+
+    if (typeof arg !== 'string') {} else return new JSBI_ntv(JSBI_ntv.__BigInt(arg));
+    if (typeof arg !== 'number') {} else return JSBI_ntv.__Num2BigInt(arg);
+    if (typeof arg !== 'boolean') {} else return new JSBI_ntv(arg? 1n: 0n);
+
+    if (typeof arg !== 'object') {} else {
+      if (arg.constructor === JSBI_ntv) return arg;
+//      const primitive= JSBI_ntv.__toPrimitive(arg);
+//      return JSBI_ntv.JSBI_ntv.__BigInt(primitive); // TODO= ADD BACK
+    }
+    throw new TypeError('Cannot convert ' + arg + ' to a BigInt');
+  }
+  toDebugString() :string { return this.it.toString(); } // TODO= CHECK= orig
+  toString(radix? :number) :string { return this.it.toString(radix || 10); } // TODO= (ditto)
+  //valueOf() :bigint { return this.it; } // TODO= MORE
+  static toNumber(it :JSBI_ntv) :number { return parseInt(it.it.toString()); } // TODO= better
+  static equal(x :JSBI_ntv, y :JSBI_ntv) :boolean { return !(x.it !== y.it); }
+  static greaterThan(x :JSBI_ntv, y :JSBI_ntv) :boolean { return !(x.it <= y.it); }
+  static add(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it + y.it); }
+  static subtract(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it - y.it); }
+  static multiply(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it * y.it); }
+  static divide(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it / y.it); }
+  static remainder(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it % y.it); }
+  static bitwiseAnd(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it & y.it); }
+  static bitwiseOr(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it | y.it); }
+  static leftShift(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it << y.it); }
+  static signedRightShift(x :JSBI_ntv, y :JSBI_ntv) :JSBI_ntv { return new JSBI_ntv(x.it >> y.it); }
+// TODO?= isZero= (it: bigint_ish)=>JSBI_ish.equal(it, o__);
+}/**
+
+((()=>{
+
+;interface Obje { [key: string]: any; }
+const globje = (() => { }).constructor('return this;')() as Obje;
+
+const idealName= 'JSBI_native';
+if (globje['NO_' + idealName]) {} else {
+
+  let counter= 0-1;
+  const suffix= function() {
+    if (++counter) {} else return '_';
+    const s__= '0' + counter.toString(2);
+    const s_= s__.replace(/0/g, '_');
+    const s= s_.replace(/1/g, '$');
+    return s;
+  }
+
+  let hopedName= idealName;
+  while (typeof globje[hopedName] !== 'undefined')
+    hopedName= idealName + suffix();
+
+  globje[hopedName] = JSBI_ntv;
+  console.log("Loaded JSBIn as " + hopedName);
+
+}})());/**/
+
+//
+
+;const NML11th_DLSign_globje=
+  ( ()=>{} ).constructor('return this;')() as { [key: string]: any; };
+
+;(((je)=>{ je['JSBI']=
+          je['JSBI_native'] || je['JSBI_GCLabs'] || je['JSBI_floatOnly'];
+})(NML11th_DLSign_globje));
+
+// PREAMBULATORY CONTEXT - Copied here to compile in the TS playground
+;declare class JSBI extends Array {
+    private sign;
+    private constructor();
+    static BigInt(arg: number | string | boolean | object): JSBI;
+    toDebugString(): string;
+    toString(radix?: number): string;
+    valueOf(): void;
+    static toNumber(x: JSBI): number; /**
+    static unaryMinus(x: JSBI): JSBI;
+    static bitwiseNot(x: JSBI): JSBI;
+    static exponentiate(x: JSBI, y: JSBI): JSBI; /**/
+    static multiply(x: JSBI, y: JSBI): JSBI;
+    static divide(x: JSBI, y: JSBI): JSBI;
+    static remainder(x: JSBI, y: JSBI): JSBI;
+    static add(x: JSBI, y: JSBI): JSBI;
+    static subtract(x: JSBI, y: JSBI): JSBI;
+    static leftShift(x: JSBI, y: JSBI): JSBI;
+    static signedRightShift(x: JSBI, y: JSBI): JSBI;
+    static unsignedRightShift(): void; /**
+    static lessThan(x: JSBI, y: JSBI): boolean;
+    static lessThanOrEqual(x: JSBI, y: JSBI): boolean; /**/
+    static greaterThan(x: JSBI, y: JSBI): boolean; /**
+    static greaterThanOrEqual(x: JSBI, y: JSBI): boolean; /**/
+    static equal(x: JSBI, y: JSBI): boolean;
+    static notEqual(x: JSBI, y: JSBI): boolean;
+    static bitwiseAnd(x: JSBI, y: JSBI): JSBI;
+    static bitwiseXor(x: JSBI, y: JSBI): JSBI;
+    static bitwiseOr(x: JSBI, y: JSBI): JSBI; /**
+    static asIntN(n: number, x: JSBI): JSBI;
+    static asUintN(n: number, x: JSBI): JSBI;
+    static ADD(x: any, y: any): string | number | JSBI;
+    static LT(x: any, y: any): boolean;
+    static LE(x: any, y: any): boolean;
+    static GT(x: any, y: any): boolean;
+    static GE(x: any, y: any): boolean;
+    static EQ(x: any, y: any): boolean;
+    static NE(x: any, y: any): boolean;
+    static DataViewGetBigInt64(dataview: DataView, byteOffset: number, littleEndian?: boolean): JSBI;
+    static DataViewGetBigUint64(dataview: DataView, byteOffset: number, littleEndian?: boolean): JSBI;
+    static DataViewSetBigInt64(dataview: DataView, byteOffset: number, value: JSBI, littleEndian?: boolean): void;
+    static DataViewSetBigUint64(dataview: DataView, byteOffset: number, value: JSBI, littleEndian?: boolean): void;
+    static __zero(): JSBI;
+    static __oneDigit(value: number, sign: boolean): JSBI;
+    __copy(): JSBI;
+    __trim(): this;
+    __initializeDigits(): void;
+    static __decideRounding(x: JSBI, mantissaBitsUnset: number, digitIndex: number, currentDigit: number): 1 | 0 | -1;
+    static __fromDouble(value: number): JSBI;
+    static __isWhitespace(c: number): boolean;
+    static __fromString(string: string, radix?: number): JSBI | null;
+    static __fillFromParts(result: JSBI, parts: number[], partsBits: number[]): void;
+    static __toStringBasePowerOfTwo(x: JSBI, radix: number): string;
+    static __toStringGeneric(x: JSBI, radix: number, isRecursiveCall: boolean): string;
+    static __unequalSign(leftNegative: boolean): number;
+    static __absoluteGreater(bothNegative: boolean): number;
+    static __absoluteLess(bothNegative: boolean): number;
+    static __compareToBigInt(x: JSBI, y: JSBI): number;
+    static __compareToNumber(x: JSBI, y: number): number;
+    static __compareToDouble(x: JSBI, y: number): number;
+    static __equalToNumber(x: JSBI, y: number): boolean;
+    static __comparisonResultToBool(result: number, op: 0 | 1 | 2 | 3): boolean;
+    static __compare(x: any, y: any, op: 0 | 1 | 2 | 3): boolean;
+    __clzmsd(): number;
+    static __absoluteAdd(x: JSBI, y: JSBI, resultSign: boolean): JSBI;
+    static __absoluteSub(x: JSBI, y: JSBI, resultSign: boolean): JSBI;
+    static __absoluteAddOne(x: JSBI, sign: boolean, result?: JSBI | null): JSBI;
+    static __absoluteSubOne(x: JSBI, resultLength?: number): JSBI;
+    static __absoluteAnd(x: JSBI, y: JSBI, result?: JSBI | null): JSBI;
+    static __absoluteAndNot(x: JSBI, y: JSBI, result?: JSBI | null): JSBI;
+    static __absoluteOr(x: JSBI, y: JSBI, result?: JSBI | null): JSBI;
+    static __absoluteXor(x: JSBI, y: JSBI, result?: JSBI | null): JSBI;
+    static __absoluteCompare(x: JSBI, y: JSBI): number;
+    static __multiplyAccumulate(multiplicand: JSBI, multiplier: number, accumulator: JSBI, accumulatorIndex: number): void;
+    static __internalMultiplyAdd(source: JSBI, factor: number, summand: number, n: number, result: JSBI): void;
+    __inplaceMultiplyAdd(multiplier: number, summand: number, length: number): void;
+    static __absoluteDivSmall(x: JSBI, divisor: number, quotient?: JSBI | null): JSBI;
+    static __absoluteModSmall(x: JSBI, divisor: number): number;
+    static __absoluteDivLarge(dividend: JSBI, divisor: JSBI, wantQuotient: false, wantRemainder: false): undefined;
+    static __absoluteDivLarge(dividend: JSBI, divisor: JSBI, wantQuotient: true, wantRemainder: true): {
+        quotient: JSBI;
+        remainder: JSBI;
+    };
+    static __absoluteDivLarge(dividend: JSBI, divisor: JSBI, wantQuotient: boolean, wantRemainder: boolean): JSBI;
+    static __clz15(value: number): number;
+    __inplaceAdd(summand: JSBI, startIndex: number, halfDigits: number): number;
+    __inplaceSub(subtrahend: JSBI, startIndex: number, halfDigits: number): number;
+    __inplaceRightShift(shift: number): void;
+    static __specialLeftShift(x: JSBI, shift: number, addDigit: 0 | 1): JSBI;
+    static __leftShiftByAbsolute(x: JSBI, y: JSBI): JSBI;
+    static __rightShiftByAbsolute(x: JSBI, y: JSBI): JSBI;
+    static __rightShiftByMaximum(sign: boolean): JSBI;
+    static __toShiftAmount(x: JSBI): number;
+    static __toPrimitive(obj: any, hint?: string): any;
+    static __toNumeric(value: unknown): number | JSBI;
+    static __isBigInt(value: unknown): value is JSBI;
+    static __truncateToNBits(n: number, x: JSBI): JSBI;
+    static __truncateAndSubFromPowerOfTwo(n: number, x: JSBI, resultSign: boolean): JSBI;
+    __digit(i: number): number;
+    __unsignedDigit(i: number): number;
+    __setDigit(i: number, digit: number): void;
+    __setDigitGrow(i: number, digit: number): void;
+    __halfDigitLength(): number;
+    __halfDigit(i: number): number;
+    __setHalfDigit(i: number, value: number): void;
+    static __digitPow(base: number, exponent: number): number;
+    static __kMaxLength: number;
+    static __kMaxLengthBits: number;
+    static __kMaxBitsPerChar: number[];
+    static __kBitsPerCharTableShift: number;
+    static __kBitsPerCharTableMultiplier: number;
+    static __kConversionChars: string[];
+    static __kBitConversionBuffer: ArrayBuffer;
+    static __kBitConversionDouble: Float64Array;
+    static __kBitConversionInts: Int32Array;
+    static __clz30: (x: number) => number;
+    static __imul: (x: number, y: number) => number;
+    static __isOneDigitInt(x: number): boolean; /**/
+}/**/
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+/****\ --- just ignore this crap:
+/// /// <reference path="../types.d.ts" />
+const knull= null as null_t_;
+///export const _2upby31less1= (1<<31)*2.0-1>>>0;
+///import globje from './required.js'; // TODO?= FIX with notional type or s/t
+///export default JSBI; // I may yet remove/replace this; this isn't really the right place to pick a module flavor.  So don't rely on it.
+//const JSBI_= globje['JSBI'] as JSBI; // TODO?= poll for globje['JSBI']
+ \**/
+
+ /**\
+const //set_timeout(0)(()=>{ //var globj= undefined;
+ globje= ( ()=>{} ).constructor('return this;')();
+ const jsbi__= typeof globje['JSBI'];
+ const jsbi_= jsbi__==='undefined'? "": "JSBI " + jsbi__;
+ globje['JSBI']= JSBI; // console.log("Added " + typeof (globje['JSBI']= JSBI));
+ const jsbi= "JSBI " + typeof globje['JSBI'];
+ console.log((jsbi===jsbi_? "Already have ": "Loaded " + (!jsbi_? "": jsbi + " over ")) + (!jsbi_? jsbi: jsbi_));
+//});
+  **
+  **
+ \**/ // NB: sincere apologies for some rather iffy demodularization at this early stage of the project
+
+//NML11th_DLSign_globje['JSBI']= JSBI_dbl;
+//NML11th_DLSign_globje['JSBI']= JSBI_gcl;
+//NML11th_DLSign_globje['JSBI']= JSBI_ntv;
+
+;((()=>{
+
+//const set_timeout= (ms)=>(fn, ...args)=>setTimeout(fn, ms, ...args);
+//setTimeout(()=>{ console.log("0o" + JSBI.BigInt('4242').toString(8)); }, 9999); // waits ten secs and prints 0o10222
+//setTimeout(()=>{ console.log("DS"+JSBI.unaryMinus(JSBI.BigInt('4242')).toString(8)); }, 4999);
+;console.log("DS-"+JSBI.add(JSBI.BigInt(false), JSBI.BigInt('4242')).toString(8));
+const sbz= ('-').charCodeAt(0) - JSBI.subtract(JSBI.BigInt(0), JSBI.BigInt('0b101')).toString().charCodeAt(0);
+if (!sbz) {} else throw " :-( @"+329+": !!"+sbz;
+
+//const set_timeout= (ms: number)=>(fn: TimerHandler, ...args)=>setTimeout(fn, ms, ...args);
+;const set_timeout= (ms :number
+                )=>(fn :(d :any)=>any, ...args :any[]
+                )=>setTimeout(fn, ms, ...args);
+
+;set_timeout(0)(()=>{ //console.log("10222 === " + (JSBI.BigInt(4242)).toString(8));
+  const max= JSBI.BigInt(Number.MAX_SAFE_INTEGER);
+  console.log(String(max) + " === 0x" + max.toString(16)); // → '9007199254740991'
+  const two= JSBI.BigInt('2'), result= JSBI.add(two, max);
+  console.log(String(result) + " === 0x" + result.toString(16)); // → '9007199254740993'
+});
+    
+})());
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+;type bignat_t= JSBI; // MAYBE= ;type bignat_meta= typeof JSBI;
+const JSBI_= (NML11th_DLSign_globje['JSBI'] as (typeof JSBI)) || JSBI; // MAYBE= const bignat_vtbl= JSBI;
+const BigNat4str= (s :string)=>JSBI_.BigInt(s);
+const BigNat4num= (n :number|boolean)=>JSBI_.BigInt(n);
+
+;type signer_vrfy_t_= (y: string, e: string, s: string) => string;
+;type hasher_afn_t_= (_ :string) => Promise<string>;
+
+;interface draysigner_t_ { __ :string; globje :object; 'JSBI': typeof JSBI;
+  key_r: (str :string) => string;
+  key_u: (r :string) => string;
+  sign_k: (str :string) => string;
+  sign_gk: (k :string) => string;
+  sign: (r :string
+   ) => (k :string, e :string) => string;
+  vrfy: (y :string, e :string, s :string) => string;
+  verify: (verifier :signer_vrfy_t_, hasher :hasher_afn_t_
+      ) => (pubkey: string
+      ) => (message: string, evidence: string, signature: string
+      ) => Promise<boolean>;
+};
+;interface draysigner_t__ { __ :string; globje :object; 'JSBI': typeof JSBI;
+  key_r?: (str :string) => string;
+  key_u?: (r :string) => string;
+  sign_k?: (str :string) => string;
+  sign_gk?: (k :string) => string;
+  sign?: (r :string
+    ) => (k :string, e :string) => string;
+  vrfy?: (y :string, e :string, s :string) => string;
+  verify?: (verifier :signer_vrfy_t_, hasher :hasher_afn_t_
+      ) => (pubkey: string
+      ) => (message: string, evidence: string, signature: string
+      ) => Promise<boolean>;
+};
+
+;const NML11th_DLSign_ :draysigner_t__[]= [ { __: 'NML11th_DLSign',
+  'globje': NML11th_DLSign_globje, 'JSBI': NML11th_DLSign_globje['JSBI'], } ];
+
+;NML11th_DLSign_populate(NML11th_DLSign_); // SEE= next section
+NML11th_DLSign_globje['NML11th_DLSign']= NML11th_DLSign_[0];
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+;function NML11th_DLSign_populate(it: draysigner_t__[]) {{
+
+/**
+const p321a= '100000000000000000000000000000000000004ac158f960042437cb88fd5777e8d51b9865bc460fb';
+const p2048a= 'fffffffffffffffffffffffffffffffffffffffffb7f960042437cb88fd5777e8d51b9865bae8c8c803d489505f652dd7c91114973ee1e5808d33d3c724fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdaa729d8a9ef16a21e0280c694448de2b479821307b326ae680c8fea9de59741bb952f21933c38461e1299245d93632f1497f59491e774369a4809fa6141421e87f01fbd5470afbebaa721466bf5247400f27c22b72394ba5fcb91cad3919a171d94646818eb2638d570f9de2cdec4eda0040403fbdcf7c797ef8a1115f6bd03f38153ec8350e49b126b86570fdd46720984a883346734b365b81a5dce7b245d';
+const p1554a= '3ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff6a9ca762a7bc5a88780a031a5112378ad1e6084c1c2c1dcfe01ee7566f618de204ebac1b49b0fe935fdc5e8a0a75560022b282c268f7ca1c90ccd59a8337fa35c6e740738b8c0ce15d96b834aafc4f1910715d41c7d027cc1f096d8c7e9cc19e888b';
+/*/
+const p321a= '2327';
+const p2048a= '5A7D651'; // 2326ffffb9b3 (?)
+const p1554a= '293'; /**/
+
+const tox= (big :bignat_t)=>big.toString(16);
+const frox= (hex :string)=>BigNat4str("0x" + hex);
+
+const q1= frox(p321a); // BigNat4str("0x" + p321a);
+console.log("" + tox(q1) + " === ...4ac158f960042437cb88fd5777e8d51b9865bc460fb");
+const p1= frox(p2048a); // BigNat4str("0x" + p2048a);
+const p0= frox(p1554a);
+
+//const BigNat_= (n :number)=>BigNat4str(n.toString());
+const upby_= (by :bignat_t)=>(n :bignat_t)=>JSBI_.leftShift(n, by);
+const dnby_= (by :bignat_t)=>(n :bignat_t)=>JSBI_.signedRightShift(n, by);
+const sub_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.subtract(x, y);
+
+const l= BigNat4num(true), o= dnby_(l)(l), z= upby_(l)(l);
+const c1= z; // NB: dubious hardcoding
+const q_c= sub_(c1)(q1);
+
+const add_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.add(x, y);
+const inc= add_(l);
+const dec= sub_(l); // inessential
+
+const mul_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.multiply(x, y);
+const div_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.divide(x, y); // inessential
+const mod_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.remainder(x, y);
+//const mad__= (m :bignat_t)=>(y :bignat_t)=>(x :bignat_t)=>JSBI_.remainder(JSBI_.add(x, y), m);
+
+if (!!!!!!JSBI_.toNumber(o)) {} else
+((()=>{
+  const p__= div_(z)(p1);
+  const r_= div_(q1)(p__);
+  const r= div_(p0)(r_);
+  const r__= add_(r)(r);
+  const qp0= mul_(p0)(q1);
+  const diff= sub_(mul_(r__)(qp0))(p1);
+  console.log(""+diff.toString()+" r="+r.toString()+" ("+r.toString(2).length+" bits) == 0x"+r.toString(16));
+})());
+
+const eq_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.equal(x, y);
+const le_= (y :bignat_t)=>(x :bignat_t)=>!JSBI_.greaterThan(x, y);
+const zero= (x :bignat_t)=>eq_(o)(x);
+const one= (x :bignat_t)=>eq_(l)(x);
+
+const band_= (y :bignat_t)=>(x :bignat_t)=>JSBI_.bitwiseAnd(x, y);
+//const bior_= (y)=>(x)=>JSBI_.bitwiseOr(x, y);
+
+const mulmod_= (m :bignat_t)=>{ // const mulmod_= (m)=>(y)=>(x)=>mod_(m)(mul_(y)(x));
+  const f= mod_(m);
+  return (y ?:bignat_t
+      )=>(y? ( (x :bignat_t)=>f(mul_(y)(x)) ): ( (x :bignat_t)=>f(mul_(x)(x)) ));
+}
+const _221= mulmod_(o); type mulmod__t_= typeof _221; // TODO= BETTER(?)
+
+const powmod__= (mm_: mulmod__t_
+             )=>(y :bignat_t
+             )=>(x :bignat_t)=>{ // TODO= (x :string)
+  let b= l, q= l;
+  if (le_(y)(b)) {} else return q;
+
+  for (;;) {
+    if (zero(band_(y)(b))) {} else q= mm_(x)(q);
+    b= upby_(l)(b);
+    if (le_(y)(b)) {} else return q;
+    x= mm_()(x);
+  }
+}
+const powmod_= (m :bignat_t)=>{
+  const mm_= mulmod_(m);
+  return powmod__(mm_);
+}
+
+const pump1= powmod_(p1);
+const generator= (p :bignat_t, pm_ :typeof pump1, q :bignat_t
+                )=>(limit: number
+                )=>{
+  const k= div_(q)(dec(p));
+  const pm= pm_(k);
+
+  const f= (r :number)=>
+           pm(BigNat4num(r));
+  let rv= f(2);
+  let i= 1;
+  while (one(rv) && (i+= 2)<=limit) rv= f(i);
+
+  if (i<=limit) {} else throw " :-( @"+487; // This ought to be highly improbable, so failure surely implies a mistake
+  return rv;
+}
+const gen1= generator(p1, pump1, q1)
+
+//const D= (it :string)=>BigNat("00"+it.trim());
+const B= (it: string)=>BigNat4str("0b"+it.trim());
+const O= (it: string)=>BigNat4str("0o"+it.trim());
+const X= (it: string)=>BigNat4str("0x"+it.trim());
+
+//function identity__(x: any) { return x; }; type id_t__= typeof identity__; // TODO= BETTER
+//function identity_ <Type> ( arg :Type ) :Type { return arg; } // TODO= LEARN
+const identity_= function <Type> ( arg :Type ) :Type { return arg; } // TODO= LEARN
+;type id_t_= typeof identity_;
+
+const prepkey= (post :id_t_)=>(radix= 10)=>{
+  const it= (pre :string
+         )=>(str :string)=>post(BigNat4str(""+pre+str)).toString(2);
+  if (radix % 10) {} else if (radix===10) return it(""); else throw " :-( @"+114;
+  
+  const l= Math.floor(Math.log(radix)/Math.log(2)+0.5);
+  const s= "0" + ' b ox'.charAt(l) + " ";
+  if (1<<l===radix && s.charCodeAt(1)!==32) {} else throw " :-( @"+118;
+  return it(s.trim());
+}
+const pubkey= (radix= 8
+           )=>(p :bignat_t, q :bignat_t, g :bignat_t
+           )=>(r :string)=>powmod_(p)(sub_(B(r))(q))(g).toString(radix);
+
+const g1= gen1(7); // let's be lucky?!?
+console.log(String(g1) + " == 0x" + g1.toString(16));
+if (!one(g1)) {} else throw " :-( @"+78; // These two tests are a sound (if incomplete) check of the scheme params
+const g2q= pump1(q1)(g1);
+console.log(String(g2q) + " == 0x" + g2q.toString(16));
+if (one(g2q)) {} else throw " :-( @"+81; // These two tests are a sound (if incomplete) check of the scheme params
+
+const qc1= ( (k :bignat_t
+          )=>((inc( mod_(q_c)(k) )) as bignat_t) ) as id_t_; // TODO= LEARN precedence
+it[0].key_r= prepkey(qc1)();
+it[0].key_u= pubkey()(p1, q1, g1);
+//const R= prepkey(qc1); const U= it.key_u;
+//console.log(""+tox(R(16)('101'))+" "+tox(R(10)('101'))+" "+tox(R(8)('101'))+" "+tox(R(2)('101')));
+//console.log(""+tox(U(R(2)('101'))));
+//console.log(""+tox(U(R(4)('101'))));
+
+it[0].sign_k= it[0].key_r; // k= H() % q_c + l;
+
+const sign_gk= (radix= 32
+            )=>(k :string
+            )=>(pump1(B(k))(g1)).toString(radix); // gk= pm(g, k, p).toString(32);
+it[0].sign_gk= sign_gk(); // e= H(gk...)
+
+const sign= (radix= 16
+         )=>(q :bignat_t
+         )=>(r :string
+         )=>(k :string, e :string
+         )=>mod_(q)(add_(B(k))(mul_(B(r))(X(e)))).toString(radix); // s= (e * x + k) % q;
+it[0].sign= sign()(q1);
+
+const yegs= (radix= 32
+         )=>(p :bignat_t, g :bignat_t)=>{
+  const mm_= mulmod_(p); // const pm_= powmod_(p);
+  return (y :string, e :string, s :string
+      )=>mm_(pump1(X(s))(g))(pump1(X(e))(O(y))).toString(radix); // pm(y, e, p) * pm(g, s, p) % p;
+}
+it[0].vrfy= yegs()(p1, g1);
+
+// it.$_q1= q1; it.mul_= mul_; // debugging only
+
+ // Asynchronous verification
+function verify(verifier :signer_vrfy_t_, hasher :hasher_afn_t_) {
+  return (pubkey :string
+    ) => async (message :string, evidence :string, signature :string
+    ) => (evidence
+      === await hasher(""+verifier(pubkey, evidence, signature)+message));
+}
+
+it[0].verify= verify;
+
+}/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+}/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+;setTimeout((async ()=>{{
+
+  const it= NML11th_DLSign_[0] as draysigner_t_;
+
+  const h1_= ('355'); const h2_= ('113'); const h3_= ('666');
+
+  const x= it.key_r(h1_); console.log("x= " + x);
+  const y= it.key_u(x); console.log("y= " + y);
+  const k= it.sign_k(h2_); console.log("k= " + k);
+  const gk= it.sign_gk(k); console.log("gk= " + gk);
+
+  const e= h3_;
+  const s= it.sign(x)(k, e); console.log("s= " + s);
+  const v= it.vrfy(y, e, s); console.log("v= " + v);
+  const b= await it.verify(it.vrfy, async (_ :string
+                                       )=>(h3_))(y)("", e, s); console.log("b= " + b);
+}}), 99);
+
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+;const ___cgwvaPfG :string= NaN; ___cgwvaPfG; // Provoke the playground into reporting unused variables (!)
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+ /**\
+// PREAMBULATORY CONTEXT - Copied here to compile in the TS playground
+declare class JSBI extends Array {
+    private sign;
+    private constructor();
+    static BigInt(arg: number | string | boolean | object): JSBI;
+    toDebugString(): string;
+    toString(radix?: number): string;
+    valueOf(): void;
+    static toNumber(x: JSBI): number;
+    static unaryMinus(x: JSBI): JSBI;
+    static bitwiseNot(x: JSBI): JSBI;
+    static exponentiate(x: JSBI, y: JSBI): JSBI;
+    static multiply(x: JSBI, y: JSBI): JSBI;
+    static divide(x: JSBI, y: JSBI): JSBI;
+    static remainder(x: JSBI, y: JSBI): JSBI;
+    static add(x: JSBI, y: JSBI): JSBI;
+    static subtract(x: JSBI, y: JSBI): JSBI;
+    static leftShift(x: JSBI, y: JSBI): JSBI;
+    static signedRightShift(x: JSBI, y: JSBI): JSBI;
+    static unsignedRightShift(): void;
+    static lessThan(x: JSBI, y: JSBI): boolean;
+    static lessThanOrEqual(x: JSBI, y: JSBI): boolean;
+    static greaterThan(x: JSBI, y: JSBI): boolean;
+    static greaterThanOrEqual(x: JSBI, y: JSBI): boolean;
+    static equal(x: JSBI, y: JSBI): boolean;
+    static notEqual(x: JSBI, y: JSBI): boolean;
+    static bitwiseAnd(x: JSBI, y: JSBI): JSBI;
+    static bitwiseXor(x: JSBI, y: JSBI): JSBI;
+    static bitwiseOr(x: JSBI, y: JSBI): JSBI;
+    static asIntN(n: number, x: JSBI): JSBI;
+    static asUintN(n: number, x: JSBI): JSBI;
+    static ADD(x: any, y: any): string | number | JSBI;
+    static LT(x: any, y: any): boolean;
+    static LE(x: any, y: any): boolean;
+    static GT(x: any, y: any): boolean;
+    static GE(x: any, y: any): boolean;
+    static EQ(x: any, y: any): boolean;
+    static NE(x: any, y: any): boolean;
+    static DataViewGetBigInt64(dataview: DataView, byteOffset: number, littleEndian?: boolean): JSBI;
+    static DataViewGetBigUint64(dataview: DataView, byteOffset: number, littleEndian?: boolean): JSBI;
+    static DataViewSetBigInt64(dataview: DataView, byteOffset: number, value: JSBI, littleEndian?: boolean): void;
+    static DataViewSetBigUint64(dataview: DataView, byteOffset: number, value: JSBI, littleEndian?: boolean): void;
+    static __zero(): JSBI;
+    static __oneDigit(value: number, sign: boolean): JSBI;
+    __copy(): JSBI;
+    __trim(): this;
+    __initializeDigits(): void;
+    static __decideRounding(x: JSBI, mantissaBitsUnset: number, digitIndex: number, currentDigit: number): 1 | 0 | -1;
+    static __fromDouble(value: number): JSBI;
+    static __isWhitespace(c: number): boolean;
+    static __fromString(string: string, radix?: number): JSBI | null;
+    static __fillFromParts(result: JSBI, parts: number[], partsBits: number[]): void;
+    static __toStringBasePowerOfTwo(x: JSBI, radix: number): string;
+    static __toStringGeneric(x: JSBI, radix: number, isRecursiveCall: boolean): string;
+    static __unequalSign(leftNegative: boolean): number;
+    static __absoluteGreater(bothNegative: boolean): number;
+    static __absoluteLess(bothNegative: boolean): number;
+    static __compareToBigInt(x: JSBI, y: JSBI): number;
+    static __compareToNumber(x: JSBI, y: number): number;
+    static __compareToDouble(x: JSBI, y: number): number;
+    static __equalToNumber(x: JSBI, y: number): boolean;
+    static __comparisonResultToBool(result: number, op: 0 | 1 | 2 | 3): boolean;
+    static __compare(x: any, y: any, op: 0 | 1 | 2 | 3): boolean;
+    __clzmsd(): number;
+    static __absoluteAdd(x: JSBI, y: JSBI, resultSign: boolean): JSBI;
+    static __absoluteSub(x: JSBI, y: JSBI, resultSign: boolean): JSBI;
+    static __absoluteAddOne(x: JSBI, sign: boolean, result?: JSBI | null): JSBI;
+    static __absoluteSubOne(x: JSBI, resultLength?: number): JSBI;
+    static __absoluteAnd(x: JSBI, y: JSBI, result?: JSBI | null): JSBI;
+    static __absoluteAndNot(x: JSBI, y: JSBI, result?: JSBI | null): JSBI;
+    static __absoluteOr(x: JSBI, y: JSBI, result?: JSBI | null): JSBI;
+    static __absoluteXor(x: JSBI, y: JSBI, result?: JSBI | null): JSBI;
+    static __absoluteCompare(x: JSBI, y: JSBI): number;
+    static __multiplyAccumulate(multiplicand: JSBI, multiplier: number, accumulator: JSBI, accumulatorIndex: number): void;
+    static __internalMultiplyAdd(source: JSBI, factor: number, summand: number, n: number, result: JSBI): void;
+    __inplaceMultiplyAdd(multiplier: number, summand: number, length: number): void;
+    static __absoluteDivSmall(x: JSBI, divisor: number, quotient?: JSBI | null): JSBI;
+    static __absoluteModSmall(x: JSBI, divisor: number): number;
+    static __absoluteDivLarge(dividend: JSBI, divisor: JSBI, wantQuotient: false, wantRemainder: false): undefined;
+    static __absoluteDivLarge(dividend: JSBI, divisor: JSBI, wantQuotient: true, wantRemainder: true): {
+        quotient: JSBI;
+        remainder: JSBI;
+    };
+    static __absoluteDivLarge(dividend: JSBI, divisor: JSBI, wantQuotient: boolean, wantRemainder: boolean): JSBI;
+    static __clz15(value: number): number;
+    __inplaceAdd(summand: JSBI, startIndex: number, halfDigits: number): number;
+    __inplaceSub(subtrahend: JSBI, startIndex: number, halfDigits: number): number;
+    __inplaceRightShift(shift: number): void;
+    static __specialLeftShift(x: JSBI, shift: number, addDigit: 0 | 1): JSBI;
+    static __leftShiftByAbsolute(x: JSBI, y: JSBI): JSBI;
+    static __rightShiftByAbsolute(x: JSBI, y: JSBI): JSBI;
+    static __rightShiftByMaximum(sign: boolean): JSBI;
+    static __toShiftAmount(x: JSBI): number;
+    static __toPrimitive(obj: any, hint?: string): any;
+    static __toNumeric(value: unknown): number | JSBI;
+    static __isBigInt(value: unknown): value is JSBI;
+    static __truncateToNBits(n: number, x: JSBI): JSBI;
+    static __truncateAndSubFromPowerOfTwo(n: number, x: JSBI, resultSign: boolean): JSBI;
+    __digit(i: number): number;
+    __unsignedDigit(i: number): number;
+    __setDigit(i: number, digit: number): void;
+    __setDigitGrow(i: number, digit: number): void;
+    __halfDigitLength(): number;
+    __halfDigit(i: number): number;
+    __setHalfDigit(i: number, value: number): void;
+    static __digitPow(base: number, exponent: number): number;
+    static __kMaxLength: number;
+    static __kMaxLengthBits: number;
+    static __kMaxBitsPerChar: number[];
+    static __kBitsPerCharTableShift: number;
+    static __kBitsPerCharTableMultiplier: number;
+    static __kConversionChars: string[];
+    static __kBitConversionBuffer: ArrayBuffer;
+    static __kBitConversionDouble: Float64Array;
+    static __kBitConversionInts: Int32Array;
+    static __clz30: (x: number) => number;
+    static __imul: (x: number, y: number) => number;
+    static __isOneDigitInt(x: number): boolean;
+}
+;type signer_vrfy_t_ = (y: string, e: string, s: string) => string;
+;type hasher_afn_t_ = (_: string) => Promise<string>;
+interface draysigner_t_ {
+    _: string;
+    'JSBI': typeof JSBI;
+    key_r: (str: string) => string;
+    key_u: (r: string) => string;
+    sign_k: (str: string) => string;
+    sign_gk: (k: string) => string;
+    sign: (r: string) => (k: string, e: string) => string;
+    vrfy: (y: string, e: string, s: string) => string;
+    verify: (verifier: signer_vrfy_t_, hasher: hasher_afn_t_) => (pubkey: string) => (message: string, evidence: string, signature: string) => Promise<boolean>;
+}/**/
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+const NML11th_DLPtcl_globje= ( ()=>{} ).constructor('return this;')();
+
+const TODO= false; const DONE= true; const Done= true;
+const DO= undefined; const DODO= undefined; const DODODO= undefined;
+const DONT= undefined; const DONOT= undefined; const DONUT= undefined;
+const DOL8R= undefined; const OK= undefined; const YES= undefined;
+const NO= undefined; const NONO= undefined; const NONONO= undefined;
+
+const veracity= true; const falsity= false;
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+;interface AssociativeArray<RangeType> { [key: string]: RangeType; }
+
+;type bigint_t= JSBI; const JSBI__= (NML11th_DLPtcl_globje['JSBI'] as (typeof JSBI)) || JSBI;
+const BigInt_= BigNat4str; const BigInt__= BigNat4num;
+//;type aaJSBI_t= AssociativeArray<bigint_t>; // (sic)
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+const $_Date_resoln= !!!!!!falsity? 86400000: 1;
+const $sophistication= 3-0;
+const $hasBigInts= !(NML11th_DLPtcl_globje['iseenobigintshere']===true) && !(
+  NML11th_DLPtcl_globje['JSBI_floatOnly']
+  && ((()=>BigInt__(false))()) instanceof (NML11th_DLPtcl_globje['JSBI_floatOnly'])); // SIX
+
+console.log("We" + ($hasBigInts? "'ve": " haven't") + " got big integers here, BTW.");
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+const $trueremote= $sophistication>=999; // TODO= MOVE= all derived testbed flags to here
+const $someremote= $sophistication>=3; // Unlike 'fakeremote', 'some' includes client networking HERE
+const $somecopying= $sophistication>=2; // Unlike 'fakecopying', 'some' here includes network I/O
+const $somethinganything= $sophistication>=1;
+
+const $truecopying= $somecopying && $trueremote;
+const $fakecopying= $somecopying && !$trueremote;
+const $fakeremote= $someremote && !$trueremote;
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+;type EpochalTime= number;
+//function epochalTime_() :Epochal { return Date.now(); }
+//function epochalTime(base= 10) :string { return Date.now().toString(base); }
+var $_Date_counter= 0-1;
+function Date_now() { return ((Date.now()/$_Date_resoln + 0.7 >>> 0) + ++$_Date_counter) as EpochalTime; }
+ // 1-0.7 of a day is 3x2.4 hours so 2:12am US ET; I have usually finished work by then. -EMD
+
+function isJSBIish(it :any) {
+  const je= NML11th_DLPtcl_globje; // TODO= RENAME
+  return je['JSBI_native'] && (it instanceof (je['JSBI_native'])) // expected
+      || je['JSBI_GCLabs'] && (it instanceof (je['JSBI_GCLabs'])) // likely otherwise
+      || je['JSBI_floatOnly'] && (it instanceof (je['JSBI_floatOnly'])) // only under test
+      || je['JSBI'] && (it instanceof (je['JSBI'])) // also only under test
+      || 'bigint' === '' + typeof it; // (legacy)
+}
+
+const hashStringAsynchronously= ($$ :$$lib_t
+                       )=>async (message :string) => {
+  const msgUint8 :Uint8Array= new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
+  const hashBuffer= await crypto.subtle.digest("SHA-384", msgUint8); // hash the message
+  const hashArray= Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
+  const hashBin= ( hashArray.map( (b :number // convert bytes to binary string
+                             ) => ('0000000' + b.toString(2)).slice(-8) ) ).join("");
+  let q= $$.o, b= $$.l;
+
+  const len= !( NML11th_DLPtcl_globje['JSBI_floatOnly'] // TODO?= DRY
+    && q instanceof NML11th_DLPtcl_globje['JSBI_floatOnly'] )? hashBin.length: 21; // TODO= JUSTIFY
+
+  for (let i= len; --i >= 0; b= $$.u(b, $$.l))
+    if (hashBin[i]=='0') {} else q= $$.v(q, b); // TODO= FIX/EXPLAIN= $$.v(...) works but $$.a(...) fails(!)
+
+  return q;
+}/**/
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+;interface $$lib_t { o: JSBI; l: JSBI; z: JSBI;
+  e: typeof JSBI.equal; g: typeof JSBI.greaterThan;
+  a: typeof JSBI.add; s: typeof JSBI.subtract;
+  x: typeof JSBI.multiply; r: typeof JSBI.remainder;
+  n: typeof JSBI.bitwiseAnd; v: typeof JSBI.bitwiseOr;
+  u: typeof JSBI.leftShift; d: typeof JSBI.signedRightShift;
+};
+
+;interface $lib_t { K: AssociativeArray<bigint_t>;
+
+    powmod: (x: bigint_t, y: bigint_t, m: bigint_t) => bigint_t;
+    asyncHash: (s: string, m?: bigint_t) => Promise<bigint_t>;
+    JSON_stringify: (it: any) => string;
+
+    signhere_k_: (salt: string, mid: string, msg: string,
+      h?: (s: string, m?: bigint_t) => Promise<bigint_t>
+    ) => Promise<bigint_t>;
+    signhere_e_: (g2k: string, msg: string,
+      h?: (s: string, m?: bigint_t) => Promise<bigint_t>
+    ) => Promise<bigint_t>;
+
+    signhere: (prikey: bigint_t, salt: string, time: string | number, message: string,
+      h?: (s: string, m?: bigint_t) => Promise<bigint_t>
+    ) => Promise<string>;
+    verifynow: (pubkey: bigint_t, message: string, evdnc: bigint_t, sgntr: bigint_t,
+      h?: (s: string, m?: bigint_t) => Promise<bigint_t>
+    ) => Promise<bigint_t>;
+
+    evidence: (serialized: string) => bigint_t;
+    signature: (serialized: string) => bigint_t;
+
+    sOnlys: (prikey: bigint_t, wrt: string | number, bitlen: number, symbols: number,
+      h?: (s: string, m?: bigint_t) => Promise<bigint_t>
+    ) => Promise<string[]>;
+    sOnlyE: (sonlys: string[], bitvec: bigint_t) => string[];
+    sOnlyD: (sonlys: string[], subset: string[]) => bigint_t;
+};
+
+;interface $state_t { _ :string;
+  S :AssociativeArray<string>;
+  I :AssociativeArray<number>;
+  N :AssociativeArray<bigint_t>;
+  A :AssociativeArray<symbol>;
+  isremote ? :boolean; // servisremote ? :boolean; clieisremote ? :boolean;
+};
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+const deriveDLPtclLibrary= ($$ :$$lib_t  /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+    )=>(p_: string, q_: string, c_: number, g_: string) :$lib_t=>{     /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+const $p= BigInt_(p_); const $q= BigInt_(q_); const $q_c= $$.s($q, BigInt__(c_)); const $g= BigInt_(g_);
+;type bnat= bigint_t; // const BNat= BigInt__;
+function BNat(x :number) :bnat { return BigInt__(x); }
+;type Time= EpochalTime | string;
+
+function $$pm(x :bnat, y :bnat, m :bnat) { /** return x; } /*/
+  let b= $$.l, q= $$.l;
+let d= 555;
+  if (!$$.g(b, y)) {} else return q;
+//console.log('PM: ' + 'x= ' + x.toString() + ', y= ' + y.toString() + ', m= ' + m.toString());
+  for (;--d;) {
+    if ($$.e($$.o, $$.n(b, y))) {} else q= $$.r($$.x(q, x), m);
+//if (typeof(l)!=='bigint') b*= 2; else // TODO= FIX <<
+    b= $$.u(b, $$.l);
+    if (!$$.g(b, y)) {} else return q;
+//x= (x**z) % m;
+    x= $$.r($$.x(x, x), m);
+  }
+  throw 'INF';
+}
+
+if (!!!falsity) {} else console.log("<0v0> " + $$.a($$.l, $$pm(BNat(3), BNat(5), BNat(101)) ).toString(10));
+
+const $$hsa= hashStringAsynchronously($$);
+async function $$ah(s: string, m= $$.o) {
+  const x= await $$hsa(s);
+  return !$$.e($$.o, m)? $$.r(x, m): x;
+}
+/*
+const zeroPadOctet= (padTo :number)=>(str :string)=>('0000000' + str).slice(0-padTo);
+
+const formatter= (radix :number)=>{
+  const padto= radix===16? 2: 8>>>(radix>>>2);
+  const pad= zeroPadOctet(padto);
+console.log("" + radix + "->" + padto + " (" + Math.log(256)/Math.log(radix) + ")");
+  return async (promise :Promise<Uint8Array>)=>Array
+    .from(await promise)
+    .map((byte) => pad(byte.toString(radix)))
+    .join("");
+}
+const asyncHasher= (digest :string)=>
+//  (formatter: formatter_t_)=>
+  async (message :string)=>
+  new Uint8Array(await crypto.subtle.digest(digest, new TextEncoder().encode(message)));
+
+const $f2x4= formatter(16);
+const $f4x2= formatter(4);
+const $f8x1= formatter(2);
+
+const $h8x32= asyncHasher('SHA-256');
+const $h12x32= asyncHasher('SHA-384');
+
+(async ()=>console.log("" + await $f2x4($h8x32('XYZZY'))))(); /**/
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+const JSON_stringify_= (radix :number= 10
+                  ) => { // Usage: pass desired base; returns plug-in replacement for JSON.stringify
+    const toStr= !$hasBigInts?
+                   (num :bigint_t)=> num.toString(radix): // TODO= FIXFIXFIX!!! // SIX
+                   (num :bigint_t)=> num.toString(radix);
+    return (it :any
+      ) => JSON.stringify(it, (_key :any, val :any
+                         ) => !isJSBIish(val)? val: "0" + toStr(val)); }; // TODO= EXPLAIN= "0" +... // SIX
+const JSON_stringify= JSON_stringify_(/* 32 /*/ 10 /**/);
+/* EG: */ console.log( JSON_stringify_() ({ prime: BigInt_('101'), composite: (1984), }));
+
+const JSON_parse_= // Usage: pass desired base; returns plug-in replacement for JSON.parse
+  (radix :number= 10)=>
+  { const fromStr= !$hasBigInts && falsity? // TODO= FIXFIXFIX!!!
+                     (str :string)=>parseInt(str, radix):
+                     (str :string)=>BigInt_(str); // TODO= FIXFIXFIX!!! // SIX
+    return (it :any
+      ) => JSON.parse(it, (_key :any, val :any
+                     ) => ( 'string'===''+typeof val && (val as string).charAt(0)=='0'
+                              && (val as string).length>=2 && (val as string).indexOf('.') < 0?
+                            fromStr(val):
+                            val )); };
+
+const JSON_parse= JSON_parse_( /* 32 /*/ 10 /**/ );
+/* EG: */ console.log( JSON_stringify_(2) (JSON_parse_(10) (JSON_stringify_(10) ({ prime: BigInt_('101'), composite: (1984), })))); // SIX
+
+//function signhere_s(x :bnat, k: bnat, e: bnat) { return (e * x + k) % q; } // s[= (e*x+k)%q]
+function evidence( serialized :string ) :bnat { const it= JSON_parse(serialized); return it.evidence; }
+function signature( serialized :string ) :bnat { const it= JSON_parse(serialized); return it.signature; }
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+async function signhere_k_(salt :string, mid :string, msg: string, h= $$ah) {
+    const h0= salt + "[" + mid + "]" + msg;
+    const h1= (await h(h0)).toString(32);
+    return h(salt + "#" + h1);
+}
+
+function signhere_e_(g2k :string, msg: string, h= $$ah) {
+//console.log("Signing: \""+msg+"\"" with #"+gk);
+   return h(g2k + ":" + msg);
+}
+
+async function signhere(prikey :bnat, salt :string, time :Time, message :string, h= $$ah) {
+  async function signhere_k(salt :string, mid :string, msg: string) { /***
+    const h0= salt + "[" + mid + "]" + msg;
+    const h1= (await h(h0)).toString(32);
+    const h2= (await h(salt + "#" + h1));
+/*/ const h2= await signhere_k_(salt, mid, msg, h);
+/**/
+//console.log(" // h0= " + h0 + ", h1= " + h1 + ", h2= " + h2 + ". ");    
+    const k= $$.a($$.r(h2, $q_c), $$.l);
+    return k; // k[= (z%(q-c))+1] (or some such)
+  }
+  async function signhere_e(k :bnat, msg: string) {
+    const gk= $$pm($g, k, $p).toString(32); /***
+    const h0= gk + ":" + msg;
+//console.log("Signing: "+h0);
+    const h1= (await h(h0));
+/*/ const h1p= signhere_e_(gk, msg);
+/*/
+/**/
+    return h1p; // e[= H(g^k%p|m|t)] (or some such)
+  }
+  const k= await signhere_k(salt, time.toString(), message);
+  const e= await signhere_e(k, message);
+  const s= $$.r($$.a($$.x(e, prikey), k), $q); // s[= (e*x+k)%q]
+//  return "" + e.toString(32) + "%" + s.toString(32);
+//  return "" + e.toString() + "%" + s.toString();
+  const temporarily= { /* secret: k, /**/ evidence: e, signature: s, /* _: TODO, /**/ };
+TODO; // Serialize bigints
+  return JSON_stringify(temporarily);
+}
+
+async function verifynow(pubkey :bnat, message :string, evdnc :bnat, sgntr :bnat, h= $$ah) {
+  const ye= $$pm(pubkey, evdnc, $p);
+  const gs= $$pm($g, sgntr, $p);
+  const es= $$.r($$.x(ye, gs), $p);
+  const h0= es.toString(32) + ":" + message;
+console.log("Verifying: "+h0 + ", ye= "+ye.toString(10));
+  const h1= (await h(h0));
+
+  if ($$.e(h1, evdnc)) {} else console.log('NONONONONO');
+  return h1;
+}
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+//;type num_map_t= (x: bigint_t, y: bigint_t) => (bigint_t|boolean);
+//;type numpred_t= (x: bigint_t, y: bigint_t) => (boolean);
+//;type numfunc_t= (x: bigint_t, y: bigint_t) => (bigint_t);
+//;interface numlib_t { [key: string]: num_map_t; }
+//;interface numlib_t__ { [key: string]: numpred_t; }
+//;interface numlib_t_ { [key: string]: numfunc_t; }
+
+/**
+const $$= $ as numlib_t__;
+const $_= $ as numlib_t_; /**/
+/*
+const $$_= { o: BigInt__(0), l: BigInt__(true), z: BigInt_('2'),
+  e: JSBI__.equal as numpred_t, g: JSBI__.greaterThan as numpred_t, // l_: JSBI__.lessThan, z: isZero, // SIX
+  a: JSBI__.add as numfunc_t, s: JSBI__.subtract as numfunc_t, x: JSBI__.multiply as numfunc_t, r: JSBI__.remainder as numfunc_t, // q_: JSBI__.divide as numfunc_t,
+  n: JSBI__.bitwiseAnd as numfunc_t, v: JSBI__.bitwiseOr as numfunc_t, u: JSBI__.leftShift as numfunc_t, d: JSBI__.signedRightShift as numfunc_t, 
+};/**/
+
+/* crypto.subtle.digest("SHA-256", user).then(
+ const pusher_= new Pusher(
+ { appId: "1736956", key: "1158400e38747b789cba", secret: "k", cluster: "ap2", useTLS: true }); /**/
+ /**\
+var p= o, q= o, c= z, g= o;
+var q_c= o;
+;type H__t= typeof ah; // | undefined;
+;type H_t= H__t | null; // | undefined;
+var H= null as H_t; // WAS: var H :H_t= null; // Didn't work: null type was inferred(!?!)
+ \**/
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+async function sOnlys(prikey :bnat, wrt :Time, bitlen :number, symbols :number, h= $$ah) {
+  function prune(a :string[], lo :number, hi :number) {
+    while (lo<=hi) {
+      let n= bitlen;
+      const mi= (lo+hi)>>>1;
+      const c= {} as AssociativeArray<number>;
+      const b= a.map( (val, idx, arr)=>
+                      { arr; const it= val.slice(0, mi); if (!c[it]) { --n; c[it]= idx; } return it; } );
+//console.log(JSON_stringify(b));
+//console.log(JSON_stringify(c));
+      if (!n) { a= b; hi= mi-1; } else { lo= mi+1; }
+console.log("lo= "+lo+", mi= "+mi+", hi= "+hi+", n= "+n);
+    }
+console.log(JSON_stringify(a));
+    if (lo<=symbols) {} else a[0]= '';
+    return a;
+  }
+  let answer= [] as string[];
+  let counter= 0;
+  do {
+      const salt= prikey.toString(32), mid= "" + counter + wrt;
+      for (let b= bitlen; --b >= 0; ) answer[b]= // TODO= DROP= JSON(here) - use .split('$')
+        JSON_parse(await signhere(prikey, salt, mid, (b+bitlen).toString(3), h)).signature.toString(32);
+      answer= prune(answer, 1, symbols);
+  } while (!answer[0] && ++counter<=9);
+console.log(JSON.stringify(answer));
+  return answer[0]? answer: [];
+}
+function sOnlyE(sonlys :string[], bitvec :bnat) {
+  const answer_= [] as string[]; // TODO= LOSE
+  const answer= [] as string[];
+  sonlys.forEach( (value, index, array)=>{ array;
+    if ($$.n($$.d(bitvec, BNat(index)), $$.l).toString(4)==='0') {} // TODO= better
+    else { answer.push(value); answer_[index]= value; } } );
+
+  return veracity? answer: answer_;
+}
+function sOnlyD(sonlys :string[], subset :string[]) {
+//sonlys.push('');
+//console.log("SONLYS= " + JSON_stringify(sonlys) + "; SUBSET= " + JSON_stringify(subset));
+  let q= $$.o;
+  subset.forEach( (value, index, array)=> { index; array;
+//console.log("->" + value.trim() + "<-" + sonlys.indexOf(value.trim()));
+    q= $$.v(q, $$.u($$.l, BNat(sonlys.indexOf(value.trim())))); } ); // TRY= $$.a(...) for $$.v(...)
+  return q; // TODO= TEST indexOf() fails and DOST!!!
+}
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+const rv= { K: { p: $p, q: $q, q_c: $q_c, g: $g, },
+  powmod: $$pm, asyncHash: $$ah, JSON_stringify :JSON_stringify,
+  signhere_k_ :signhere_k_, signhere_e_ :signhere_e_,
+  signhere :signhere, verifynow :verifynow,
+  evidence :evidence,  signature :signature,
+  sOnlys :sOnlys, sOnlyE :sOnlyE, sOnlyD: sOnlyD,
+} /* as $lib_t /**/ ; return rv; }
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+//<https://raw.githubusercontent.com/mdn/dom-examples/main/web-workers/simple-web-worker/index.html>
+//<https://raw.githack.com/mdn/dom-examples/main/web-workers/simple-web-worker/index.html>
+//<https://github.com/GoogleChromeLabs/jsbi>
+//<http://www-cs-students.stanford.edu/~tjw/jsbn/>
+//<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+// WEIRD TypeError in promise: can't convert BigInt to number in pm() from verify() from protocol()
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+const NML11th_DLPtcl= NML11th_DLPtcl_(); /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+function NML11th_DLPtcl_() { ; /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+;type bnat= bigint_t; // const BNat= BigInt__;
+function BNat(x :number) :bnat { return BigInt__(x); }
+//const l= BNat(true) /* , o= l>>l, z= l<<l /*/, o= BNat(false), z= BNat(2) /***/;
+
+//const isZero= (it :bigint_t)=>(JSBI__.equal(it, o)) // SIX
+const $$= { o: BigInt__(false), l: BigInt__(1), z: BigInt_('2'),
+  e: JSBI__.equal, g: JSBI__.greaterThan, // l_: JSBI__.lessThan, z: isZero, // SIX
+  a: JSBI__.add, s: JSBI__.subtract, x: JSBI__.multiply, r: JSBI__.remainder, // q_: JSBI__.divide,
+  n: JSBI__.bitwiseAnd, v: JSBI__.bitwiseOr, u: JSBI__.leftShift, d: JSBI__.signedRightShift, 
+};
+const $$fromHex= (s :string)=>BigInt_("0x" + "0x" + s); // TODO= ASK eg on StackExchange
+
+const $dls= NML11th_DLPtcl_globje['NML11th_DLSign'] as draysigner_t_;
+const $lib= deriveDLPtclLibrary($$)('94885457', '8999', 2, '54065022');
+const $p= $lib.K.p; const $q= $lib.K.q; const $q_c= $lib.K.q_c; const $g= $lib.K.g;
+const $$pm= $lib.powmod;
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+;type Primitive= string | boolean | number;
+
+var step= 0-1;
+const until= function (waitfor :typeof step) { return step >= waitfor; }
+
+function timeout(ms :number) {
+  return new Promise(resolver => setTimeout(resolver, ms));
+}
+async function wait(ms :number, it ?:Primitive) { 
+  const p= new Promise( (resolver)=>{ setTimeout(( ()=>{ resolver(it); } ), ms); } );
+  return await p;
+}
+async function poll(waitfor :typeof step, ms :number) {
+  let limit= 199;
+  while (!until(waitfor) && --limit >= 0)
+    if (!!!!veracity) await timeout(ms); else await wait(ms);
+  return limit >= 0? "": "Timed out :-(";
+}
+async function request(waitfor :typeof step) { return await poll(waitfor, 1000/15); }
+async function respond(waitfor :typeof step) { return await poll(waitfor, 1000/15); }
+;type reqres_f_= typeof request; // TODO= better
+
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+async function network(meth :reqres_f_, dest :$state_t, from: $state_t, list :string|null) {
+  const send= $fakecopying? dest: { _: '', S: {}, I: {}, N: {}, A: {}, };
+  if (!list) if (list!==null) {} else { ++step; console.log("STEP " + step.toString()); return ""; }
+  else list.split(' ').forEach( (value, index, array)=>{ array; index; /**
+    send[value]= from[value];
+    console.log('TX.' + send._ + '[' + value + ']= it.' + from._ + '[' + value + '] (==' + from[value].toString(4) + ')');
+    /*/
+    send.S[value]= from.S[value]; send.I[value]= from.I[value];
+    send.N[value]= from.N[value]; send.A[value]= from.A[value];
+//    console.log('TX.' + send._ + '[' + value + ']= it.' + from._ + '[' + value + '] (==' + from[value].toString(4) + ')');
+    /**/
+  });
+  ++step;
+console.log("Step " + step.toString());
+  if ($someremote) {} else return "";
+  const rv= await meth(step+1);
+  if (!rv) {} else console.log(rv);
+  return rv;
+}
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+;type Acceptable= Primitive | bnat;
+;type Ellipses= Acceptable[];
+
+async function subscribe(..._ :Ellipses) { return ""; } // TODO= do by callback instead
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+NO; const APP_KEY_BITS= $hasBigInts? 80: 16; // TODO= REMOVE= hardcode // SIX
+    const APP_KEY_BITS_= BNat(APP_KEY_BITS);
+
+const $state0 :$state_t= { _: '0', S: {}, I: {}, N: {}, A: {}, };
+const $state1 :$state_t= { _: '1', S: {}, I: {}, N: {}, A: {}, };
+const $state2= !$somecopying? $state1: { _: '2', S: {}, I: {}, N: {}, A: {}, };
+
+// PSEUDO-SERVER - simulate passing APP_KEY to publishing server
+
+const protocol= async (identity: string) :Promise<string> => {
+    const h= $lib.asyncHash;
+    const is_a= identity?
+      ( (identities :string)=>{ return identities? identities.indexOf(identity)+1: -1; } ):
+      ( (_:string)=>{ _; return -2; } );
+    const symbols= $q_c.toString(32).length; // TODO= FIX= 32 not 16?
+    const omni= $state0;
+    const clie= is_a('C') || !$trueremote? $state1: { _: 'c', S: {}, I: {}, N: {}, A: {}, isremote: $trueremote, };
+    const admi= /**/ clie /*/ state as $state_t /**/;
+    const serv= is_a('S') || !$trueremote? $state2: { _: 's', S: {}, I: {}, N: {}, A: {}, isremote: $trueremote, };
+
+    async function req(list :string|null)
+      { if (serv===clie) {} else await network(request, serv, clie, list); }
+    async function res(list :string|null)
+      { if (serv===clie) {} else await network(respond, clie, serv, list); }
+    
+    /* PREAMBLE /**/ if (!is_a('')) {} else {
+      omni.S._k_APP_KEY_= "1158400e38747b789cba"; // TODO= obtain from admin and verify from hash (say)
+      { const len_= ((APP_KEY_BITS-1 >>> 2)+1) - omni.S._k_APP_KEY_.length;
+        omni.S._k_APP_KEY= (len_<=0? '': '0'.repeat(len_)) + omni.S._k_APP_KEY_; } // TODO= obtain from admin and verify from hash (say)
+      omni.S._k_PWa= 'letmein'; // TODO?= USE= H(PWa)
+
+const C0a= "some_salt/the_admin/" + omni.S._k_PWa; // TODO= better salt(?)
+const H0a= (await h(C0a));
+
+omni.S.jKra_x_= $dls.key_r(H0a.toString(10)); // TODO= LOSE= denary
+      omni.N._k_Kra= $$.a(await h(C0a, $q_c), $$.l);
+  ;;; omni.S._k_jKra_y_= omni.N._k_Kra.toString(2);
+  if (omni.S._k_jKra_y_ === omni.S.jKra_x_) {} else return "Nope 2913";
+
+omni.S.jKua_x_= $dls.key_u(omni.S.jKra_x_);
+      omni.N._k_Kua= $$pm($g, $$.s($q, omni.N._k_Kra), $p); // TODO= DRAW= H(Kua) from env and verify
+  ;;; omni.S._k_jKua_y_= omni.N._k_Kua.toString(8);
+  if (omni.S._k_jKua_y_ === omni.S.jKua_x_) {} else return "Nope 2923";
+    
+      admi.S.PWa= omni.S._k_PWa; // TODO?= USE= H(PWa)
+      admi.S.APP_KEY= omni.S._k_APP_KEY; // admin _might_ mistype either, of course
+      
+;OK;  serv.N.Kua= omni.N._k_Kua; // hardcode if necessary!
+
+;TODO; // LOSE?= _k_~ and ~_y_
+serv.S.jKua= omni.S.jKua_x_;
+    }
+    console.log(" // either@T0= " + $lib.JSON_stringify(omni));
+//
+    /* SERVER boot:- /********************/ if (!is_a('S')) {} else {
+    serv.S.T0s= Date_now().toString();
+    console.log(" // server@T0= " + $lib.JSON_stringify(serv));
+    await res(''); // TODO= startup
+;NONO;serv.S.E0s= "" + BNat((((4242)))).toString(32) + "@" + serv.S.T0s; // TODO= GET some entropy from subtle
+    const C0s= "some_salt/" + serv.S.E0s; // TODO= better salt(?)
+    const H0s= (await h(C0s));
+serv.S.jKrs= $dls.key_r(H0s.toString(10)); // TODO= LOSE= denary
+      serv.N.Krs= $$.a(await h(C0s, $q_c), $$.l);
+  ;;; serv.S.jKrs_y_= serv.N.Krs.toString(2);
+  if (serv.S.jKrs_y_ === serv.S.jKrs) {} else return "Nope 2924";
+serv.S.jKus= $dls.key_u(serv.S.jKrs);
+      serv.N.Kus= $$pm($g, $$.s($q, serv.N.Krs), $p);
+  ;;; serv.S.jKus_y_= serv.N.Kus.toString(8);
+  if (serv.S.jKus_y_ === serv.S.jKus) {} else return "Nope 2933";
+     DONUT; // TODO= DRAW= Kua from env and LOSE= preamble
+     DOL8R; // TODO= create GET and POST routes for /admin/kua/
+    //await res('');
+    console.log(" // server@T1= " + $lib.JSON_stringify(serv));
+    }
+//
+    /* CLIENT boot:- /********************/ if (!is_a('C')) {} else {
+    if (!$someremote) {} else { console.log('Client 2999'); await timeout(2999); }
+    console.log('Client 0000');
+    const C0c= "some_salt/the_admin/" + admi.S.PWa; // TODO= better salt(?)
+    const H0c= (await h(C0c));
+clie.S.jKra= $dls.key_r(H0c.toString(10)); // TODO= LOSE= denary
+      clie.N.Kra= $$.a(await h(C0c, $q_c), $$.l);
+  ;;; clie.S.jKra_y_= clie.N.Kra.toString(2);
+  if (clie.S.jKra_y_ === clie.S.jKra) {} else return "Nope 2948";
+clie.S.jKua= $dls.key_u(clie.S.jKra);
+      clie.N.Kua= $$pm($g, $$.s($q, clie.N.Kra), $p); // TODO= DRAW= H(Kua) from env and verify
+  ;;; clie.S.jKua_y_= clie.N.Kua.toString(8);
+  if (clie.S.jKua_y_ === clie.S.jKua) {} else return "Nope 2957";
+if (clie.S.jKua === omni.N._k_Kua.toString(8)) {} else return "Nope OMNI #1"; // verify against omni._k_Kua
+    clie.S.T1c= Date_now().toString();
+    admi.S.Q1a= '123';
+    console.log(" // client@T1= " + $lib.JSON_stringify(clie));
+    await req('T1c'); // C fetch(GET) Kus from S using T1c and quirk Q1a
+    console.log(" // client@T2= " + $lib.JSON_stringify(clie));
+    }
+//
+    /* SERVER in reply to M@T1 /**********/ if (!is_a('S')) {} else {
+    if (serv.S.T1c) {} else return "Not passing!";
+const now= Date_now().toString(); // serv.S.j2T2s= now;
+serv.S.T2s= now;
+serv.S.j2mt= "`" + serv.S.jKus + "@" + serv.S.T1c + "'"; // TODO= DRY?
+    serv.S.mt2= serv.S.j2mt; // "`" + serv.N.Kus.toString(8) + "@" + serv.S.T1c + "'"; // TODO= DRY?
+serv.I.__x= 1 + serv.S.j2mt.lastIndexOf("@");
+if (!serv.I.__x) {} else {
+ serv.S.__m= serv.S.j2mt.slice(1, serv.I.__x - 1);
+ serv.S.__t= serv.S.j2mt.slice(serv.I.__x, 0-1); }
+    // S signs@T2s M2= Kus,T1c (NB: proves only S knows Krs, roughly)
+    const salt2= await (h(serv.N.Kua.toString(32)));
+      serv.S.st2= await $lib.signhere(serv.N.Krs, salt2.toString(32), serv.S.T2s, serv.S.mt2, h);
+  // NONONO; // serv.jh2__= (await signhere_k_(salt2.toString(32), serv.S.T2s, serv.S.mt2)).toString(16);
+const jh2= "0x" + (await $lib.signhere_k_(salt2.toString(32), serv.S.T2s, serv.S.mt2)).toString(16);
+serv.S.j2k= $dls.sign_k(jh2);
+serv.S.j2gk= $dls.sign_gk(serv.S.j2k);
+serv.S.j2e= (await $lib.signhere_e_(serv.S.j2gk, serv.S.mt2)).toString(16);
+serv.S.j2s= $dls.sign(serv.S.jKrs)(serv.S.j2k, serv.S.j2e);
+      serv.S.Mt2= "`" + serv.S.mt2 + "$" + serv.S.st2 + "'"; // TODO= DRY?
+serv.S.j2mt$= "`" + serv.S.mt2 + "$" + serv.S.j2e + "%" + serv.S.j2s + "'";
+    console.log(" // server@T2= " + $lib.JSON_stringify(serv) + " -=- " + $lib.signature(serv.S.st2).toString(16));
+if (serv.S.j2s === $lib.signature(serv.S.st2).toString(16)) {} else return "NOPE 2981" // DONE(!)= compare
+//    NO; await res('j2e j2s jKus Kus T2s Mt2'); // S sends M2,S2 to C
+    await res('Kus T2s j2mt$'); // S sends M2,S2 to C // TODO?= LOSE= Kus
+    console.log(" // server@T3= " + $lib.JSON_stringify(serv));
+    }
+//
+    /* CLIENT at T3 in reply to M@T2:- /**/ if (!is_a('C')) {} else {
+    if (clie.S.T2s) {} else return "Not passing!";
+const now= Date_now().toString();
+clie.S.T3c= now;
+    console.log(" // client@T3-2= " + $lib.JSON_stringify(clie));
+const j2mtes= clie.S.j2mt$;
+
+const idx= 1 + j2mtes.lastIndexOf("$");
+if (idx) {} else return "Nope 3007";
+clie.S.mt2= j2mtes.slice(1, idx - 1);
+const es2= j2mtes.slice(idx, 0-1);
+
+const idxl= 1 + clie.S.mt2.lastIndexOf("@");
+if (idxl) {} else return "Nope 3012";
+clie.S.jKus_= clie.S.mt2.slice(1, idxl - 1);
+const t1c= clie.S.mt2.slice(idxl, 0-1); if (t1c === clie.S.T1c) {} else return "Nope 3014";
+
+const idxr= 1 + es2.lastIndexOf("%");
+if (idxr) {} else return "Nope 3017";
+clie.S.j2e= es2.slice(0, idxr - 1);
+clie.S.j2s= es2.slice(idxr);
+    console.log(" // client@T3-1= " + $lib.JSON_stringify(clie));
+
+// Client verifies signature (why?) // TODO= EXPLAIN= WHY
+  const qq3a= $dls.vrfy(clie.S.jKus_, clie.S.j2e, clie.S.j2s); console.log("qq3a= "+qq3a);
+  const qq3b= (await h(qq3a + ":" + clie.S.mt2)).toString(16); console.log("qq3b= "+qq3b);
+TODO; const f= async (it :string)=>(await h(it)).toString(16); // TODO= MOVE (librize or s/t?)
+if (await $dls.verify($dls.vrfy, f)(clie.S.jKus_)(":" + clie.S.mt2, clie.S.j2e, clie.S.j2s)) {} else return "NOPE !V@3";
+  ;TODO; // TODO= EXTRACT= Kus from Mt2
+    // NB: C now has sound entropy, if nothing else!  (But _is_ it really S?)
+    clie.N.E3c= await h( "some_salt/the_entropy/" + clie.S.Mt2 + "@" + clie.S.T3c );
+    // Client creates keypair for ADMIN to sign
+    const C3c= "some_salt/the_admin/" + admi.S.PWa + "/" + clie.N.E3c.toString(4);
+    const H3c= (await h(C3c));
+clie.S.jKrc= $dls.key_r(H3c.toString(10)); // TODO= LOSE= denary
+      clie.N.Krc= $$.a(await h(C3c, $q_c), $$.l);
+  ;;; clie.S.jKrc_y_= clie.N.Krc.toString(2);
+  if (clie.S.jKrc_y_ === clie.S.jKrc) {} else return "Nope 3005";
+clie.S.jKuc= $dls.key_u(clie.S.jKrc);
+      clie.N.Kuc= $$pm($g, $$.s($q, clie.N.Krc), $p);
+  ;;; clie.S.jKuc_y_= clie.N.Kuc.toString(8);
+  if (clie.S.jKuc_y_ === clie.S.jKuc) {} else return "Nope 3014";
+    // ADMIN signs client public key
+clie.S.mt3= "`" + clie.S.jKuc + "@" + clie.S.T2s + "'"; clie.S.mt3_z_= clie.S.mt3;
+    //clie.S.mt3= "`" + clie.N.Kuc.toString(8) + "@" + clie.S.T2s + "'"; clie.S.mt3_z_= clie.S.mt3;
+      clie.S.st3= await $lib.signhere(clie.N.Kra, admi.S.APP_KEY, clie.S.T3c, clie.S.mt3, h); // TODO= EXPLAIN= WHY APP_KEY? (salt?)
+    //clie.S.st3= await signhere(clie.N.Kra, admi.S.APP_KEY, clie.S.T3c, clie.S.mt3, h);
+  // NONONO; // clie.jh3__= (await signhere_k_(admi.S.APP_KEY, clie.S.T3c, clie.S.mt3)).toString(16);
+const jh3= "0x" + (await $lib.signhere_k_(admi.S.APP_KEY, clie.S.T3c, clie.S.mt3)).toString(16);
+clie.S.j3k= $dls.sign_k(jh3);
+clie.S.j3gk= $dls.sign_gk(clie.S.j3k);
+clie.S.j3e= (await $lib.signhere_e_(clie.S.j3gk, clie.S.mt3)).toString(16);
+clie.S.j3s= $dls.sign(clie.S.jKra)(clie.S.j3k, clie.S.j3e);
+      clie.S.Mt3= "`" + clie.S.mt3 + "$" + clie.S.st3 + "'"; // TODO?= DRY
+clie.S.j3mt$= "`" + clie.S.mt3 + "$" + clie.S.j3e + "%" + clie.S.j3s + "'";
+if (clie.S.j3s === $lib.signature(clie.S.st3).toString(16)) {} else return "NOPE 3057" // DONE(!)= compare
+    console.log(" // client@T3= " + $lib.JSON_stringify(clie));
+      await req('Kuc mt3_z_ st3 T3c j3mt$'); // Client POSTs signed Kuc to Server // TODO?= LOSE= Kuc
+    console.log(" // client@T4= " + $lib.JSON_stringify(clie));
+    }  
+//
+    /* SERVER at T4 in reply to M@T3:- /**/ if (!is_a('S')) {} else {
+    if (serv.S.T3c) {} else return "Not passing!";
+const now= Date_now().toString(); // serv.j4T4s= now;
+serv.S.T4s= now;
+    console.log(" // server@T4-2= " + $lib.JSON_stringify(serv));
+const j3mtes= serv.S.j3mt$;
+
+const idx= 1 + j3mtes.lastIndexOf("$");
+if (idx) {} else return "Nope 3068";
+serv.S.mt3= j3mtes.slice(1, idx - 1); if (serv.S.mt3 === serv.S.mt3_z_) {} else return "Nope 3069";
+const es3= j3mtes.slice(idx, 0-1);
+
+const idxl= 1 + serv.S.mt3.lastIndexOf("@");
+if (idxl) {} else return "Nope 3073";
+serv.S.jKuc= serv.S.mt3.slice(1, idxl - 1);
+const t2s= serv.S.mt3.slice(idxl, 0-1); if (t2s === serv.S.T2s) {} else return "Nope 3075";
+
+const idxr= 1 + es3.lastIndexOf("%");
+if (idxr) {} else return "Nope 3079";
+serv.S.j3e= es3.slice(0, idxr - 1);
+serv.S.j3s= es3.slice(idxr);
+    console.log(" // server@T4-1= " + $lib.JSON_stringify(serv));
+
+      const ev0= $lib.evidence(serv.S.st3);
+      const sig= $lib.signature(serv.S.st3);
+    console.log(" // server@T4-1= " + $lib.JSON_stringify(serv) + ", ES= " + ev0.toString(10) + "$" + sig.toString(10));
+      const ev1= await $lib.verifynow(serv.N.Kua, serv.S.mt3_z_, ev0, sig, h);
+    serv.N.ev0= ev0; serv.N.ev1= ev1;
+      const verified_= $$.e(ev1, ev0); // S verifies ADMIN signature
+
+  const qq4a= $dls.vrfy(serv.S.jKua, serv.S.j3e, serv.S.j3s); console.log("qq4a= "+qq4a);
+  const qq4b= (await h(qq4a + ":" + serv.S.mt3)).toString(16); console.log("qq4b= "+qq4b);
+TODO; const f= async (it :string)=>(await h(it)).toString(16); // TODO= MOVE (librize or s/t?)
+if (await $dls.verify($dls.vrfy, f)(serv.S.jKua)(":" + serv.S.mt3, serv.S.j3e, serv.S.j3s)) {} else return "NOPE !V@4";
+
+      const verified= verified_;
+      if (!verified) {} else {
+     DOL8R; //  -> if OK, server creates POST route for Kuc
+      }
+    NONO; serv.S.mt4= "`" + ((((serv.N.Kus)))).toString(8) + "@" + serv.S.T4s + "'"; // TODO= PICK= WAS: serv.N.Kuc // Kus AGAIN tho???
+    console.log(" // server@T4= " + $lib.JSON_stringify(serv));
+    if (verified) {} else return "!V@4 3047";
+    /*  serv.responded= /**/ await res('T4s'); // Server replies with (unsigned?) verdict
+    console.log(" // server@T5= " + $lib.JSON_stringify(serv));
+    }
+//
+    /* CLIENT at T5 in reply to M@T4:- /**/ if (!is_a('C')) {} else {
+    if (clie.S.T4s) {} else return "Not passing!";
+const now= Date_now().toString(); // clie.j5T5s= now;
+clie.S.T5c= now;
+      clie.N.Krb= $$.a($$.r($$pm(clie.N.Kus, $$.s($q, (clie.N.Krc)), $p), $q_c), $$.l);
+  //clie.S.jKrb_b_= "0b " + clie.N.Krb.toString(2);
+  //clie.S.jKrb_d_= "0d " + clie.N.Krb.toString(10);
+      const sonlys= (await $lib.sOnlys(clie.N.Krb, clie.S.T1c, APP_KEY_BITS<<1, symbols, h)); // Client generates SOnly of APP_KEY
+      if (sonlys.length) {} else return "Improbably not";
+    //clie.c_sonlys= sonlys; // TODO= LOSE= substring
+      const fromhex_= $$fromHex(admi.S.APP_KEY.slice( 0-((APP_KEY_BITS-1 >>> 2)+1) ));
+    clie.N.fromhex_= fromhex_;
+      const fromhex__= $$.a($$.u($$.s($$.u($$.l, APP_KEY_BITS_), fromhex_), APP_KEY_BITS_), fromhex_);
+    clie.N.fromhex__= fromhex__;
+      clie.S.subset= $lib.sOnlyE(sonlys, fromhex__).join(":"); // Client generates SOnly of APP_KEY
+    console.log(" // client@T5= " + $lib.JSON_stringify(clie));
+      await req('subset T5c'); // Client sends APP_KEY SOnly to Server
+    console.log(" // client@T6= " + $lib.JSON_stringify(clie));
+    }
+//
+    /* SERVER at T6 in reply to M@T5:- /**/ if (!is_a('S')) {} else {
+    if (serv.S.T5c) {} else return "Not passing!";
+const now= Date_now().toString(); // serv.j6T6s= now;
+    serv.S.T6s= now;
+      const Krb= $$.a($$.r($$pm(serv.N.Kuc, $$.s($q, (serv.N.Krs)), $p), $q_c), $$.l); // clie.N.Krb === serv.N.Krb
+    if (!clie || clie.isremote || $$.e(Krb, clie.N.Krb)) {} else return "NOPE#1";
+      serv.N.Krb= Krb;
+  //serv.S.jKrb_b_= "0b " + serv.N.Krb.toString(2);
+  //serv.S.jKrb_d_= "0d " + serv.N.Krb.toString(10);
+      const sonlys= (await $lib.sOnlys(serv.N.Krb, serv.S.T1c, APP_KEY_BITS<<1, symbols, h));
+      if (sonlys.length) {} else return "Improbably not";
+    //serv.s_sonlys= sonlys;
+      const tohex__= $lib.sOnlyD(sonlys, serv.S.subset.split(":")); // TODO!!!
+    serv.N.tohex__= tohex__;
+      const tohex_= $$.s($$.u($$.l, APP_KEY_BITS_), $$.d(tohex__, APP_KEY_BITS_));
+    serv.N.tohex_= tohex_;
+    
+    console.log(" // server@T6= " + $lib.JSON_stringify(serv));
+    
+    if ($$.e($$.a($$.u($$.s($$.u($$.l, APP_KEY_BITS_), tohex_), APP_KEY_BITS_), tohex_), tohex__)) {}
+    else { return "NOPE#2"; }
+      const APP_KEY= $$.a(tohex_, $$.u($$.l, BNat( (APP_KEY_BITS-1|3)+1 )))
+        .toString(16).slice( 0-((APP_KEY_BITS-1 >>> 2)+1) );
+    if (!clie || clie.isremote || APP_KEY === omni.S._k_APP_KEY.slice( 0-((APP_KEY_BITS-1 >>> 2)+1) )) {}
+    else { return "'" + APP_KEY + "' !== '" + omni.S._k_APP_KEY + "'"; }
+      serv.S.APP_KEY= APP_KEY;
+    /**/ // MOVE:=
+      const suberr= await subscribe(serv.S.APP_KEY); // Server subscribes to Pusher.com
+      serv.S.subscription_error= suberr;
+      if(!suberr) {} else return suberr;
+      serv.S.mt6= "`" + "<Pusher.com: subscribed OK>" + "@" + serv.S.T6s + "'";
+      /* serv.responded= /**/ await res('T6s'); // Server replies with subscription (unsigned?) verdict
+    /**/
+    //console.log(" // server= " + JSON_stringify(serv));
+    }
+//
+    /* CLIENT at T7 NOT replying to M@T6:- /**/ if (!is_a('C')) {} else { await req(null); } /***
+//if (serv.S.T6s) {} else return "Not passing!";
+//const now= Date_now().toString();
+//serv.S.T7s= now; /**/
+
+//  for (let w in NML11th_DLPcol_globje[v]) if (w !== '___cgwvaPfG') {} else return "YAH";
+
+      /***********************************/ return "DONE";
+}
+
+/**
+const fac_= (f :Function, n :number, t: number)=>(n>0? f(f, n-1, n*t): t);
+const fac= (n :number)=> fac_(fac_, n, 1);
+console.log("" + fac(5));
+
+if (falsity) {} else return (async ()=>{ return ""; });
+/**/
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+return protocol; ; ; /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+}/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+(((protocol= NML11th_DLPtcl)=>{
+
+function $$cb_(agent :string)
+  { return (async (it_ :Promise<string>)=>{ console.log(agent + " got: " + (await it_)); }) }
+async function emptyString() { return ""; }
+
+if (!$somethinganything) {} else if (!$someremote) {
+    
+const it= !!!veracity? emptyString(): (( protocol )(''));
+if (!!!veracity) {} else { $$cb_('It')(it); }; // NB: we DON't 'await' anything here
+
+} else {
+
+const $$cl= veracity? (( protocol )('C')): emptyString();
+const $$sv= $fakeremote? (( protocol )('S')): emptyString();
+if (!!!veracity) {} else { $$cb_('Client')($$cl); $$cb_('Server')($$sv); }; // We COULD await the client
+
+}
+
+})());
+
+;/**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/ /**\ \**/
+
+ /**\
+DataView.prototype.setBigUint64 ??= function(byteOffset, value, littleEndian) {
+  const wh = Number((value >> 32n) & 0xFFFFFFFFn);
+  const wl = Number((value       ) & 0xFFFFFFFFn);
+  const [h, l] = littleEndian ? [4, 0] : [0, 4];
+  this.setUint32(byteOffset + h, wh, littleEndian);
+  this.setUint32(byteOffset + l, wl, littleEndian);
+};
+DataView.prototype.getBigUint64 ??= function(byteOffset, littleEndian) {
+  const [h, l] = littleEndian ? [4, 0] : [0, 4];
+  const wh = BigInt(this.getUint32(byteOffset + h, littleEndian));
+  const wl = BigInt(this.getUint32(byteOffset + l, littleEndian));
+  return (wh << 32n) + wl;
+};
+ \**/
+
+// VG re BigInt JSON revivification:- [from: <https://github.com/GoogleChromeLabs/jsbi/issues/30>]
+//<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#use_within_json>
+
+// JSON.parse(JSON.stringify(it, replacer)), reviver)
+// Global alternative to using a replacer is hijacking aka 'monkey-patching':-
+//   BigInt.prototype.toJSON= function() { return this.toString() } // NB: 'this'!!!
+
+ /**\
+const reviver= (key :any, val :any)=>
+               'string'===''+typeof val && val.charAt(0)=='0'? BigInt(val): val;
+
+BigInt(123); // 123n
+BigInt(123.4); // NONONO fails!!! <--- --- --- --- ---
+BigInt("123"); // 123n
+BigInt("0123"); // 123n // TODO= CHECK!!! <--- --- --- --- ---
+BigInt("0b10101"); // 21n, which is 10101 in binary
+BigInt("0o123"); // 83n, which is 123 in octal
+BigInt("0x123"); // 291n, which is 123 in hexadecimal
+BigInt("  123  "); // 123n, leading and trailing whitespaces are allowed
+
+const reviver = (key, value) => (key === "big" ? BigInt(value) : value);
+
+const payload = '{"number":1,"big":"18014398509481982"}';
+const parsed = JSON.parse(payload, reviver);
+
+console.log(parsed);
+// { number: 1, big: 18014398509481982n }
+ \**/
+
