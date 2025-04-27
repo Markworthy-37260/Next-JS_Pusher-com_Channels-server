@@ -2,6 +2,11 @@
 
 This file is from template; you probably want <./public/README.txt>.  Try <https://github.com/Markworthy-37260/Next-JS_Pusher-com_Channels-server/tree/main/public>.  See you there, -Marcus
 
+# Manifest
+
+/public/src/DLSign.txt is a finished signing-module.
+/public/ext/Big[[Dbl|GCL|Ntv]].ts are three number-libraries with compatible interfaces.
+
 # Next.js
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
